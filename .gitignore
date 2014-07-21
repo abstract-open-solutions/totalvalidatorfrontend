@@ -1,0 +1,20 @@
+# Ignore python compiled files
+*.py[co]
+# Ignore eggs
+*.egg-info
+# Translation files
+# Ignore backups
+*~
+.*.swp
+# CSSEdit backups
+._*
+less/
+*.pyc
+var
+tmp/
+parts
+develop-eggs
+.installed.cfg
+.mr.developer.cfg
+bin/
+src/
