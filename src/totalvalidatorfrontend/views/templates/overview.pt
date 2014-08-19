@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="totalvalidatorfrontend"
+  metal:use-macro="main.macros['main']">
+
+  <metal:title fill-slot="page_title">
+      <div class="page-header">
+        <h1>Validation overview <small><a href="${title}" target="_blank">${title}</a></small></h1>
+      </div>
+  </metal:title>
+
+  <metal:belowtitle fill-slot="below-title">
+    <div class="row" id="validation-overview">
+      <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="validation-point">
+          <div class="description">Markup</div>
+          <div>
+            <span class="label label-warning"
+              >${total_markup_errors['warning']} Warnings</span>
+            <span class="label label-danger"
+              >${total_markup_errors['error']} Errors</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="validation-point">
+          <div class="description">Accessibility</div>
+          <span class="label label-warning">000 Warnings</span>
+          <span class="label label-danger">000 Errors</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="validation-point">
+          <div class="description">CSS</div>
+          <span class="label label-warning"
+            >${total_css_errors['warning']} Warnings</span>
+          <span class="label label-danger"
+            >${total_css_errors['error']} Errors</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6 text-center">
+        <div class="description"><strong>Number or pages:</strong> <span class="number">${n_urls}</span>
+        </div>
+        <div><strong>Status:</strong> ${status}</div>
+        <a class="btn btn-primary">Re-check site</a>
+
+      </div>
+
+    </div>
+  </metal:belowtitle>
+
+  <metal:main fill-slot="main_content">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active">
+        <a href="#urls" role="tab"
+           data-toggle="tab">List of Urls</a></li>
+      <li>
+        <a href="#markup" role="tab"
+           data-toggle="tab">Markup Errors</a>
+      </li>
+      <li>
+        <a href="#accessibility" role="tab"
+           data-toggle="tab">Accessibility Errors</a>
+      </li>
+
+      <li>
+        <a href="#css" role="tab"
+           data-toggle="tab">CSS</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="urls">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>URL</th>
+                <th>Last check</th>
+                <th>HTML</th>
+                <th>Accessibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tal:results repeat="res urls">
+                <tr>
+                  <td class="overview-url">
+                    <a title="Show details" href="./${session_code}/url/${res.id}">${res.url}</a>
+                    <a title="Open ${res.url} page in a new window" target="_blank" href="${res['url']}">
+                     <span class="glyphicon glyphicon-new-window"></span></a>
+                  </td>
+                  <td  class="validation-date">
+                    <tal:date condition="res.date">${res['date']}</tal:date>
+                    <tal:date condition="not: res.date">&nbsp;</tal:date>
+                  </td>
+                  <td class="validation-errors">
+                    <tal:errors repeat="error res['markup_errors']">
+                      <span class="${error['class']}"
+                            title="${error['title']}">${error['errors']}</span>
+                    </tal:errors>
+                  </td>
+                  <td class="validation-errors">...</td>
+                </tr>
+              </tal:results>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="markup">
+        <ul class="list-group">
+          <tal:results repeat="res markup_errors">
+            <li class="list-group-item">
+              <span class="label label-${res.type}">${res.total}</span>
+              <a href="./${session_code}/markup_error/${res.errorhash}"
+                 title="Show details">${res.error}</a>
+            </li>
+          </tal:results>
+        </ul>
+      </div>
+      <div class="tab-pane fade" id="accessibility">
+        TODO: Accessibility
+      </div>
+
+      <div class="tab-pane fade" id="css">
+        <ul class="list-group">
+          <tal:results repeat="res css_errors.items()">
+            <li class="list-group-item"
+              tal:define="error res[1]">
+              <span class="label label-warning">${error['error']}</span>
+              <span class="label label-error">${error['warning']}</span>
+              <a href="./${session_code}/css_url/${res[0]}"
+                 title="Show details">${error['url']}</a>
+            </li>
+          </tal:results>
+        </ul>
+      </div>
+
+    </div>
+
+  </metal:main>
+
+</html>

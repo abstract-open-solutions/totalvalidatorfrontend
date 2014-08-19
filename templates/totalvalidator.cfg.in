@@ -1,0 +1,27 @@
+[checker]
+checkers =
+    markup
+    css
+#    accessibility
+
+
+[accessibility]
+checker = abstract.totalvalidator.checker.Accessibility
+base-url = ${config:achecker_url}
+guide = WCAG2-AA
+service-id = ${config:achecker_service_id}
+skip-potential = true
+skip-likely = false
+
+
+[markup]
+checker = abstract.totalvalidator.checker.Markup
+base-url = ${config:w3cvalidator_url}
+
+
+[css]
+checker = abstract.totalvalidator.checker.CSS
+base-url = ${config:cssvalidator_url}
+profile = css21
+usermedium = all
+warning-level = 1

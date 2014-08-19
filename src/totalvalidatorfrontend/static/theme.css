@@ -1,0 +1,208 @@
+body { padding-top: 70px; }
+
+/* nav bar divider */
+.navbar .left-divider {
+  border-left: 1px solid #E7E7E7;
+}
+
+@media (max-width: 767px) {
+  .navbar .left-divider {
+    border-left: 0;
+  }
+}
+
+label.required::after {
+    content: '*';
+    color: red;
+}
+
+#how-to button,
+#how-to .icon {
+    float: left;
+    font-size: 180%;
+    margin-right: 1em;
+}
+
+div.pagination {
+   border-radius: 4px;
+   display: inline-block;
+   margin: 20px 0;
+   padding-left: 0;
+}
+
+
+div.pagination > a:first-child,
+div.pagination > span:first-child {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    margin-left: 0;
+}
+
+div.pagination > a:last-child,
+div.pagination > span:last-child {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+div.pagination > a,
+div.pagination > span {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #428bca;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+}
+
+div.pagination > a:hover,
+div.pagination > span:hover,
+div.pagination > a:focus,
+div.pagination > span:focus {
+    background-color: #eee;
+    border-color: #ddd;
+    color: #2a6496;
+}
+
+
+div.pagination > a.active,
+div.pagination > span.active,
+div.pagination > a.active:hover,
+div.pagination > span.active:hover,
+div.pagination > a.active:focus,
+div.pagination > span.active:focus {
+    background-color: #428bca;
+    border-color: #428bca;
+    color: #fff;
+    cursor: default;
+    z-index: 2;
+}
+
+.footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 100px;
+    color: #777;
+    text-align: center;
+    border-top: 1px solid #E5E5E5;
+}
+
+.tab-content {
+    padding: 1em 1.5em;
+}
+
+.label-Validator,
+.label-error {
+    background-color: #D9534F;
+}
+
+div.legend {
+    font-size: 90%;
+    border: 1ox solid #E5E5E5;
+    border-radius: 4px;
+}
+div.legend ul {
+    list-style: none;
+    padding-left: 0;
+}
+div.legend li {
+    list-style: none;
+    line-height: 2em;
+}
+
+.overview-url {
+    width: 60%;
+}
+
+.overview-error {
+    width: 50%;
+}
+
+.validation-date,
+.validation-errors {
+    white-space: nowrap;
+}
+
+.validation-pages {
+    text-align: right;
+}
+
+code {
+    color: #333
+}
+
+code strong {
+    color: red;
+    font-weight: bold;
+}
+
+#validation-overview {
+    margin-bottom: 1.5em;
+}
+
+.validation-source {
+    width: 10%;
+}
+.error-snippet {
+/*    font-size: 90%;
+    padding: .2em 1em;*/
+}
+
+.error-details {
+    margin-left: 3em;
+}
+.error-details ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 1em 0;
+}
+
+.error-details li {
+    list-style: none;
+    line-height: 2em;
+}
+
+
+a.unfolded:before {
+    content: "▾ ";
+}
+
+a.folded:before {
+    content: "▸ ";
+}
+
+.showhide-panel {
+    display: none;
+}
+
+.extra-details .helpwanted {
+    display: none;
+}
+.extra-details {
+    font-size: 80%;
+    background-color: #FFFFFA;
+    border: 1px solid #AAA;
+    border-radius: 4px;
+}
+
+.extra-link {
+    font-size: 80%
+}
+
+.validation-point {
+    border: 1px solid #AAA;
+    border-radius: 1em;
+    padding: .8em 1em;
+    text-align: center;
+
+}
+
+.validation-point .description {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.validation-point .number {
+    padding-left: .5em;
+}

@@ -17,4 +17,6 @@ develop-eggs
 .installed.cfg
 .mr.developer.cfg
 bin/
-src/
+extras
+dump.rdb
+

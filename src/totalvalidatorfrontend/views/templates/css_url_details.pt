@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="totalvalidatorfrontend"
+  metal:use-macro="main.macros['main']">
+
+
+  <metal:title fill-slot="page_title">
+      <div class="page-header">
+        <h1>${title} <small><a href="${url}"
+          target="_blank">${url}</a></small></h1>
+      </div>
+  </metal:title>
+
+  <metal:main fill-slot="main_content">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active">
+        <a href="#errors" role="tab"
+           data-toggle="tab">Errors</a></li>
+      <li>
+        <a href="#warnings" role="tab"
+           data-toggle="tab">Warnings</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="errors">
+        <div tal:condition="not: errors"
+             class="alert alert-success">
+          No errors found
+        </div>
+        <ul class="list-group"
+          tal:condition="errors">
+          <tal:results repeat="item errors.items()">
+            <tal:item define="error item[1]">
+              <li class="list-group-item">
+                <span class="label label-error">${error['total']}</span>
+                <a class="folded showhide-trigger"
+                   title="Click to show/hide the details"
+                   href="#">${error['error']} (${error['errortype']})</a>
+                <div class="showhide-panel error-details">
+                  <ul>
+                    <li tal:repeat="ref error['references']">
+                      <span class="badge">${ref['position']}</span>
+                      <code class="error-snippet"
+                           tal:condition="ref['context']"
+                           tal:content="structure: ref['context']"></code>
+                      <code class="error-snippet"
+                           tal:condition="ref['source']"
+                           tal:content="structure: ref['source']"></code>
+                    </li>
+                  </ul>
+                  <a href="/session/${code}/css_error/${error['errorhash']}"
+                     class="extra-link"><span
+                          class="glyphicon glyphicon-new-window"></span>
+                     Show report by error</a>
+                </div>
+              </li>
+            </tal:item>
+          </tal:results>
+        </ul>
+      </div>
+
+      <div class="tab-pane fade" id="warnings">
+        <div tal:condition="not: warnings"
+             class="alert alert-success">
+          No errors found
+        </div>
+        <ul class="list-group"
+          tal:condition="warnings">
+          <tal:results repeat="item warnings.items()">
+            <tal:item define="error item[1]">
+              <li class="list-group-item">
+                <span class="label label-warning">${error['total']}</span>
+                <a class="folded showhide-trigger"
+                   title="Click to show/hide the details"
+                   href="#">${error['error']} (${error['errortype']})</a>
+                <div class="showhide-panel error-details">
+                  <ul>
+                    <li tal:repeat="ref error['references']">
+                      <span class="badge">${ref['position']}</span>
+                      <code class="error-snippet"
+                           tal:condition="ref['context']"
+                           tal:content="structure: ref['context']"></code>
+                      <code class="error-snippet"
+                           tal:condition="ref['source']"
+                           tal:content="structure: ref['source']"></code>
+                    </li>
+                  </ul>
+                  <a href="/session/${code}/css_error/${error['errorhash']}"
+                     class="extra-link"><span
+                          class="glyphicon glyphicon-new-window"></span>
+                     Show report by error</a>
+                </div>
+              </li>
+            </tal:item>
+          </tal:results>
+        </ul>
+      </div>
+
+    </div>
+
+  </metal:main>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="totalvalidatorfrontend"
+  metal:use-macro="main.macros['main']">
+
+  <metal:title fill-slot="page_title">
+      <div class="page-header">
+        <h1>
+          ${title} <small><a href="${url}" target="_blank">${url}</a></small>
+        </h1>
+      </div>
+  </metal:title>
+
+  <metal:belowtitle fill-slot="below-title">
+    <div id="validation-overview"
+         class="pull-right">
+      <p><strong>Last checked:</strong>
+        <span>${last_check}</span>
+      </p>
+      <a class="btn btn-primary">Re-check the page</a>
+    </div>
+    <div class="clearfix"></div>
+  </metal:belowtitle>
+
+  <metal:main fill-slot="main_content">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active">
+        <a href="#markuperrors" role="tab"
+           data-toggle="tab">${n_markup_errors} Markup errors</a></li>
+      <li>
+        <a href="#markupwarnings" role="tab"
+           data-toggle="tab">${n_markup_warnings} Markup warnings</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="markuperrors">
+        <div tal:condition="not: n_markup_errors"
+             class="alert alert-success">
+          No errors found
+        </div>
+        <ul class="list-group"
+          tal:condition="n_markup_errors">
+          <tal:results repeat="item markup_errors.items()">
+            <tal:item define="error item[1]">
+              <li class="list-group-item">
+                <span class="label label-error">${error['total']}</span>
+                <a class="folded showhide-trigger"
+                   title="Click to show/hide the details"
+                   href="#">${item[0]}</a>
+                <div class="showhide-panel error-details">
+                  <ul>
+                    <li tal:repeat="ref error['references']">
+                      <span class="badge">${ref['position']}</span>
+                      <code class="error-snippet"
+                           tal:condition="ref['source']"
+                           tal:content="structure: ref['source']"></code>
+                    </li>
+                  </ul>
+                  <div class="alert extra-details"
+                     tal:condition="error['detail']"
+                     tal:content="structure: error['detail']"></div>
+                  <a href="view-source:${url}"
+                     class="extra-link"
+                     target="_blank"><span
+                          class="glyphicon glyphicon-new-window"></span>
+                     Show page source</a>
+                </div>
+              </li>
+            </tal:item>
+          </tal:results>
+        </ul>
+
+      </div>
+
+      <div class="tab-pane fade" id="markupwarnings">
+
+        <div tal:condition="not: n_markup_warnings"
+             class="alert alert-success">
+          No warnings found
+        </div>
+        <ul class="list-group"
+          tal:condition="n_markup_warnings">
+          <tal:results repeat="item markup_warnings.items()">
+            <tal:item define="error item[1];
+                              has_details len(error['references']) > 0">
+              <li class="list-group-item">
+                <span class="label label-warning">${error['total']}</span>
+                <a class="folded showhide-trigger"
+                   tal:omit-tag="not: has_details"
+                   title="Click to show/hide the details"
+                   href="#">${item[0]}</a>
+                <div class="showhide-panel error-details">
+                  <ul>
+                    <li tal:repeat="ref error['references']">
+                      <span class="badge">${ref['position']}</span>
+                      <code class="error-snippet"
+                           tal:condition="ref['source']"
+                           tal:content="structure: ref['source']"></code>
+                    </li>
+                  </ul>
+                  <div class="alert extra-details"
+                     tal:condition="error['detail']"
+                     tal:content="structure: error['detail']"></div>
+                </div>
+              </li>
+            </tal:item>
+          </tal:results>
+        </ul>
+      </div>
+    </div>
+
+  </metal:main>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="totalvalidatorfrontend"
+  metal:use-macro="main.macros['main']">
+
+  <metal:title fill-slot="page_title">
+      <div class="page-header">
+        <h1>${title} <small>${error_message}</small></h1>
+      </div>
+  </metal:title>
+
+  <metal:main fill-slot="main_content">
+
+        <div tal:condition="not: urls"
+             class="alert alert-success">
+          No url found
+        </div>
+        <ul class="list-group"
+          tal:condition="urls">
+          <tal:results repeat="item urls.items()">
+            <tal:item define="error item[1]">
+              <li class="list-group-item">
+                <span class="label label-error">${error['total']}</span>
+                <a class="folded showhide-trigger"
+                   title="Click to show/hide the details"
+                   href="#">${error['url']}</a>
+                <div class="showhide-panel error-details">
+                  <ul>
+                    <li tal:repeat="ref error['references']">
+                      <span class="badge">${ref['position']}</span>
+                      <code class="error-snippet"
+                           tal:condition="ref['context']"
+                           tal:content="structure: ref['context']"></code>
+                      <code class="error-snippet"
+                           tal:condition="ref['source']"
+                           tal:content="structure: ref['source']"></code>
+                    </li>
+                  </ul>
+
+                  <a href="/session/${code}/css_url/${error['urlhash']}"
+                     class="extra-link">Show report by url</a>
+                  <br/>
+                  <a href="${error['url']}"
+                     target="_blank"
+                     class="extra-link"><span
+                          class="glyphicon glyphicon-new-window"></span>
+                     Show source</a>
+                </div>
+              </li>
+            </tal:item>
+          </tal:results>
+        </ul>
+
+  </metal:main>
+
+</html>

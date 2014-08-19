@@ -14,8 +14,24 @@ pyramid.default_locale_name = en
 pyramid.includes =
     pyramid_debugtoolbar
     pyramid_tm
+    pyramid_celery
 
-sqlalchemy.url = sqlite:///%(here)s/totalvalidatorfrontend.sqlite
+sqlalchemy.url = sqlite:///${buildout:directory}/var/totalvalidatorfrontend.sqlite
+
+totalvalidator.bin = ${buildout:bin-directory}/totalvalidator
+totalvalidator.basepath = ${buildout:directory}/var/totalvalidator
+totalvalidator.conf = ${buildout:directory}/etc/totalvalidator.cfg
+
+
+# Celery conf
+CELERY_RESULT_BACKEND = redis
+CELERY_REDIS_HOST = localhost
+CELERY_REDIS_PORT = 6379
+CELERY_REDIS_DB = 0
+BROKER_BACKEND = redis
+BROKER_TRANSPORT = redis
+BROKER_URL = redis://localhost:6379/0
+
 
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.
