@@ -11,7 +11,6 @@ from datetime import datetime
 from pyramid.threadlocal import get_current_registry
 
 from .models import get_urls_model
-from .models import empty_tables
 from .models import ValidationSessionModel
 from .models import DBSession
 from .utils import dict_to_unicode
@@ -38,11 +37,7 @@ class CrawlingTask(Task):
         # 2. change session status
         session.status = 2
 
-        # 3. clean all tables
-        # XXX: is it necessary?
-        empty_tables(session.code)
-
-        # 4. Rebuild urls table
+        # 3. Rebuild urls table
         urls_model = get_urls_model(session.code)
         fp = open('/'.join((out_directory, 'pages.csv')))
         for url in fp:
@@ -55,7 +50,7 @@ class CrawlingTask(Task):
         checking = CheckTask()
         subtask(checking).delay(hash_, session_id)
 
-    def run(self, record, limit, user=None, password=None):
+    def run(self, record, user=None, password=None):
         """Call totalvalidator crawl command to get
         the urls to validate.
 
@@ -74,8 +69,8 @@ class CrawlingTask(Task):
             os.makedirs(directory)
 
         command = "{} crawl" .format(bin)
-        if limit:
-            command += " -L {} ".format(limit)
+        if record.limit > 0:
+            command += " -L {} ".format(record.limit)
 
         # TODO: user and password options
 

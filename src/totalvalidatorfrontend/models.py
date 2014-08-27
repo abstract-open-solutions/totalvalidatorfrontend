@@ -27,7 +27,9 @@ class ValidationSessionModel(Base):
     id = Column(Integer, primary_key=True)
     url = Column(String(255))
     code = Column(String(32), unique=True)
-    date = Column(DateTime)
+    date = Column(DateTime, nullable=True)
+    # max number of pages to validate (0 == nolimit)
+    limit = Column(Integer(3), default=0)
     # 0 nothing done
     # 1 scraping
     # 2 checking html/css etc.

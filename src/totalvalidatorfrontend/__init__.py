@@ -1,9 +1,12 @@
 from pyramid.config import Configurator
+from pyramid.i18n import TranslationStringFactory
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from sqlalchemy import engine_from_config
 
 from .models import DBSession
 from .models import Base
+
+messageFactory = TranslationStringFactory('totalvalidatorfrontend')
 
 
 def main(global_config, **settings):
@@ -24,6 +27,7 @@ def main(global_config, **settings):
     config.add_route('new_session', '/new')
     config.add_route('delete', '/delete/{code}')
     config.add_route('overview', '/session/{code}')
+    config.add_route('validate', '/session/{code}/validate')
     config.add_route('url_details', '/session/{code}/url/{id}')
     config.add_route('css_url_details', '/session/{code}/css_url/{urlhash}')
     config.add_route(

@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from pyramid.view import view_config
+from pyramid.httpexceptions import HTTPFound
 from sqlalchemy import func
 
 from ..config import DATETIME_FORMAT
@@ -9,6 +10,8 @@ from ..models import get_markup_validator_model
 from ..models import get_urls_model
 from ..utils import get_validation_session
 from ..models import get_css_validator_model
+from ..models import empty_tables
+from ..task import CrawlingTask
 
 from .utils import base_view_params
 from .utils import errors_formatter
@@ -33,10 +36,14 @@ def overview(request):
     }
 
     for url in url_query:
+        date = "Validating"
+        if url.date:
+            date = url.date.strftime(DATETIME_FORMAT)
+
         item = {
             "id": url.id,
             "url": url.url,
-            "date": url.date.strftime(DATETIME_FORMAT),
+            "date": date,
             "markup_errors": []
         }
         if session.status == 3:
@@ -108,7 +115,8 @@ def overview(request):
         "total_markup_errors": total_markup_errors,
         "n_urls": n_urls,
         "urls": urls,
-        "status": SESSION_STATUS.get(session.status)
+        "status": SESSION_STATUS.get(session.status),
+        "status_code": session.status
     }
     params.update(extra_params)
 
@@ -202,3 +210,22 @@ def markup_error_details(request):
         "session_code": code,
     })
     return params
+
+
+@view_config(route_name="validate")
+def validate(request):
+    code = request.matchdict['code']
+    session = get_validation_session(code)
+
+    # 1. clean all tables
+    empty_tables(code)
+    # 2. change session status
+    session.status = 1
+    DBSession.flush()
+
+    # 3. revalidate
+    crawling = CrawlingTask()
+    crawling.delay(session)
+
+    url = request.route_url('overview', code=code)
+    return HTTPFound(location=url)

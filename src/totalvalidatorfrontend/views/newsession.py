@@ -12,7 +12,6 @@ from ..models import get_accessibility_validator_model
 from ..models import get_markup_validator_model
 
 from ..task import CrawlingTask
-from ..task import CheckTask
 
 from .utils import base_view_params
 from .utils import set_status_message
@@ -45,10 +44,12 @@ def new_session_action(request):
     except ValidationFailure, e:
         params['form'] = e.render()
         return params
+
     values = {
         'url': data['url'],
         'code': uuid.uuid4().hex,
-        'status': 0
+        'status': 0,
+        'limit': data['limit']
     }
     try:
         session = ValidationSessionModel(**values)
@@ -62,8 +63,6 @@ def new_session_action(request):
         )
 
         crawling = CrawlingTask()
-        checking = CheckTask()
-#        crawling.subtask(args=(session, data['limit']))
         crawling.delay(session, data['limit'])
 
         # change session status
