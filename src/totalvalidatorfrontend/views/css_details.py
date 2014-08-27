@@ -4,6 +4,7 @@ from ..models import DBSession
 from ..models import get_css_validator_model
 
 from .utils import base_view_params
+from .. import messageFactory as _
 
 
 @view_config(route_name='css_url_details',
@@ -62,7 +63,7 @@ def css_url_details(request):
             'context': row.context,
             'type': row.type
         })
-    params = base_view_params(request, 'CSS URL details').copy()
+    params = base_view_params(request, _(u'CSS URL details')).copy()
     params.update({
         "url": url,
         "errors": errors,
@@ -109,7 +110,7 @@ def css_error_details(request):
             'source': row.source
         })
 
-    params = base_view_params(request, 'CSS Error details').copy()
+    params = base_view_params(request, _(u'CSS Error details')).copy()
     params.update({
         "urls": results,
         "error_message": error_message,

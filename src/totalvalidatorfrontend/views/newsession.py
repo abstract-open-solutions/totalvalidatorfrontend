@@ -15,6 +15,7 @@ from ..task import CrawlingTask
 
 from .utils import base_view_params
 from .utils import set_status_message
+from .. import messageFactory as _
 
 
 @view_config(route_name='new_session',
@@ -22,7 +23,7 @@ from .utils import set_status_message
              request_method="GET")
 def new_session(request):
     form = new_session_form()
-    params = base_view_params(request, "New Session", 'new_session').copy()
+    params = base_view_params(request, _(u"New Session"), 'new_session').copy()
     params.update({
         'form': form.render()
     })
@@ -35,7 +36,7 @@ def new_session(request):
              request_method="POST")
 def new_session_action(request):
     form = new_session_form()
-    params = base_view_params(request, "New Session", 'new_session').copy()
+    params = base_view_params(request, _(u"New Session"), 'new_session').copy()
     params['form'] = form.render()
 
     controls = request.POST.items()
@@ -58,7 +59,10 @@ def new_session_action(request):
 
         set_status_message(
             request,
-            "Added {} validation session".format(values['url']),
+            _(
+                u"Added ${url} validation session",
+                mapping={"url": values['url']}
+            ),
             type_='success'
         )
 
@@ -68,19 +72,13 @@ def new_session_action(request):
         # change session status
         session.status = 1
 
-        # code = session.code
-        # get_markup_validator_model(code)
-        # get_accessibility_validator_model(code)
-        # TODO: complete
-        # get_css_validator_model('css_{}'.format(code))
     except Exception, e:
         set_status_message(
             request,
-            "Error on create new validation session",
+            _(u"Error on create new validation session"),
             type_='danger'
         )
         return params
 
-    # url = request.route_url('upload', code=session.code)
     url = request.route_url('home')
     return HTTPFound(location=url)

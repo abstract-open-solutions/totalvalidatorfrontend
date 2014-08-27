@@ -7,6 +7,7 @@ from ..models import ValidationSessionModel
 from .utils import base_view_params
 from .utils import get_errors
 from .utils import get_n_pages
+from .. import messageFactory as _
 
 BATCH_SIZE = 20
 
@@ -36,7 +37,7 @@ def index(request):
     # # import pdb; pdb.set_trace( )
     # update_errors_totals(session)
 
-    params = base_view_params(request, 'Dashboard').copy()
+    params = base_view_params(request, _(u'Dashboard')).copy()
     params.update({
         'results': results,
         'num_results': num_results,

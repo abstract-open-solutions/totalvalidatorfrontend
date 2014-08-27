@@ -12,7 +12,8 @@
         <div class="panel panel-danger">
           <div class="panel-body bg-danger">
             <span class="icon"><span class="glyphicon glyphicon-plus"></span></span>
-            <p class="lead"><strong>Create</strong> a new validation session.</p>
+            <p class="lead"
+              i18n:translate="step_1"><strong>Create</strong> a new validation session.</p>
           </div>
         </div>
       </div>
@@ -22,7 +23,8 @@
           <div class="panel-body bg-warning">
             <span class="icon"><span
               class="glyphicon glyphicon-fire"></span></span>
-            <p class="lead">
+            <p class="lead"
+              i18n:translate="step_2">
               <strong>Wait</strong> while the system cooks your data.</p>
           </div>
         </div>
@@ -32,7 +34,8 @@
         <div class="panel panel-success">
           <div class="panel-body bg-success">
             <span class="icon"><span class="glyphicon glyphicon-folder-open"></span></span>
-            <p class="lead">
+            <p class="lead"
+              i18n:translate="step_3">
               <strong>Display</strong> and analyze the results.</p>
           </div>
         </div>
@@ -42,14 +45,15 @@
 
   <metal:main fill-slot="main_content">
     <div tal:condition="not: num_results">
-      <div class="alert alert-warning">No session found</div>
+      <div class="alert alert-warning"
+           i18n:translate="">No session found</div>
       <a class="btn btn-primary" href="./new">
         <span class="glyphicon glyphicon-plus"></span>
-        Add validation session</a>
+        <span i18n:translate="">Add validation session</span></a>
     </div>
     <tal:results condition="num_results">
       <div class="pull-right">
-        <p>Found <span class="badge">${num_results}</span> sessions</p>
+        <p i18n:translate="">Found <span class="badge" i18n:name="number">${num_results}</span> sessions</p>
       </div>
       <div class="clearfix"></div>
       <div class="table-responsive">
@@ -75,14 +79,14 @@
             </tr>
 -->
             <tr>
-              <th>Session</th>
-              <th>Status</th>
-              <th>Pages</th>
-              <th>Last check</th>
-              <th>HTML</th>
-              <th>Accessibility</th>
-              <th>CSS</th>
-              <th>Actions</th>
+              <th i18n:translate="">Session</th>
+              <th i18n:translate="">Status</th>
+              <th i18n:translate="">Pages</th>
+              <th i18n:translate="">Last check</th>
+              <th i18n:translate="">HTML</th>
+              <th i18n:translate="">Accessibility</th>
+              <th i18n:translate="">CSS</th>
+              <th i18n:translate="">Actions</th>
             </tr>
           </thead>
           <tbody name="tabledata">
@@ -90,11 +94,14 @@
             <tr tal:define="errors get_errors(res.code)">
               <td><a href="/session/${res.code}">${res.url}</a></td>
               <td class="status">
-                <span tal:condition="res.status == 1">Scraping
+                <span tal:condition="res.status == 1">
+                  <tal:status i18n:translate="">Scraping</tal:status>
                   <img src="${request.static_url('totalvalidatorfrontend:static/ajax-loader.gif')}" /></span>
-                <span tal:condition="res.status == 2">Validating
+                <span tal:condition="res.status == 2">
+                  <tal:status i18n:translate="">Validating</tal:status>
                   <img src="${request.static_url('totalvalidatorfrontend:static/ajax-loader.gif')}" /></span>
-                <span tal:condition="res.status == 3">Done</span>
+                <span tal:condition="res.status == 3"
+                  i18n:translate="">Done</span>
               </td>
               <td class="validation-pages" tal:content="get_n_pages(res.code)"></td>
               <td class="validation-date">
@@ -126,7 +133,9 @@
                 </a>
                 &nbsp;
                 <a href="/delete/${res.code}"
-                   class="text-danger" title="Delete">
+                   class="text-danger"
+                   title="Delete"
+                   i18n:attributes="title">
                   <span class="glyphicon glyphicon-trash"></span></a>
               </td>
             </tr>

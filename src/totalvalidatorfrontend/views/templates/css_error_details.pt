@@ -15,7 +15,8 @@
   <metal:main fill-slot="main_content">
 
         <div tal:condition="not: urls"
-             class="alert alert-success">
+             class="alert alert-success"
+             i18n:translate="">
           No url found
         </div>
         <ul class="list-group"
@@ -26,6 +27,7 @@
                 <span class="label label-error">${error['total']}</span>
                 <a class="folded showhide-trigger"
                    title="Click to show/hide the details"
+                   i18n:attributes="title"
                    href="#">${error['url']}</a>
                 <div class="showhide-panel error-details">
                   <ul>
@@ -41,13 +43,14 @@
                   </ul>
 
                   <a href="/session/${code}/css_url/${error['urlhash']}"
-                     class="extra-link">Show report by url</a>
+                     class="extra-link"
+                     i18n:translate="">Show report by url</a>
                   <br/>
                   <a href="${error['url']}"
                      target="_blank"
                      class="extra-link"><span
                           class="glyphicon glyphicon-new-window"></span>
-                     Show source</a>
+                     <span i18n:translate="">Show source</span></a>
                 </div>
               </li>
             </tal:item>

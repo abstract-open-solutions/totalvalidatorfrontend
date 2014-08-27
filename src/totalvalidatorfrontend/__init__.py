@@ -1,4 +1,5 @@
 from pyramid.config import Configurator
+from pyramid.i18n import default_locale_negotiator
 from pyramid.i18n import TranslationStringFactory
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from sqlalchemy import engine_from_config
@@ -20,9 +21,16 @@ def main(global_config, **settings):
     # other tables will be created on demand
     Base.metadata.tables['session'].create(checkfirst=True)
     _session_factory = UnencryptedCookieSessionFactoryConfig('totalvalidator')
+
     config = Configurator(settings=settings, session_factory=_session_factory)
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
+
+    # internationalization
+    config.add_translation_dirs('totalvalidatorfrontend:locale/')
+    config.set_locale_negotiator(default_locale_negotiator)
+
+    # routes
     config.add_route('home', '/')
     config.add_route('new_session', '/new')
     config.add_route('delete', '/delete/{code}')

@@ -8,7 +8,8 @@
 
   <metal:title fill-slot="page_title">
       <div class="page-header">
-        <h1>Error details <small>${error_message}</small></h1>
+        <h1><tal:title i18n:translate="">Error details</tal:title>
+            <small>${error_message}</small></h1>
       </div>
   </metal:title>
 
@@ -26,6 +27,7 @@
             <span class="label label-${error['type']}">${error['total']}</span>
             <a class="folded showhide-trigger"
                title="Click to show/hide the details"
+               i18n:attributes="title"
                href="#">${item[0]}</a>
             <div class="showhide-panel error-details">
               <ul>
@@ -38,6 +40,7 @@
               </ul>
               <a href="/session/${session_code}/url/${error['url_id']}"
                  class="extra-link"
+                 i18n:translate=""
                  >Open url validation details</a>
             </div>
           </li>

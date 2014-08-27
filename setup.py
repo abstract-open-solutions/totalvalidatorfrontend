@@ -22,7 +22,7 @@ requires = [
     'colander',
     'deform',
     'webhelpers',
-    'abstract.totalvalidator',
+    'abstract.totalvalidator'
 ]
 
 setup(name='totalvalidatorfrontend',
@@ -49,6 +49,6 @@ setup(name='totalvalidatorfrontend',
       [paste.app_factory]
       main = totalvalidatorfrontend:main
       [console_scripts]
-      initialize_totalvalidatorfrontend_db = totalvalidatorfrontend.scripts.initializedb:main
+      initialize_db = totalvalidatorfrontend.scripts.initializedb:main
       """,
       )

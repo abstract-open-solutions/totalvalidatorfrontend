@@ -8,7 +8,8 @@
 
   <metal:title fill-slot="page_title">
       <div class="page-header">
-        <h1>Validation overview <small><a href="${title}" target="_blank">${title}</a></small></h1>
+        <h1>
+          <tal:title i18n:translate="">Validation overview</tal:title> <small><a href="${title}" target="_blank">${title}</a></small></h1>
       </div>
   </metal:title>
 
@@ -16,42 +17,57 @@
     <div class="row" id="validation-overview">
       <div class="col-md-3 col-sm-6 col-xs-6">
         <div class="validation-point">
-          <div class="description">Markup</div>
+          <div class="description"
+               i18n:translate="">Markup</div>
           <div>
             <span class="label label-warning"
-              >${total_markup_errors['warning']} Warnings</span>
+              i18n:translate="">
+              <span i18n:name="number">${total_markup_errors['warning']}</span>
+              Warnings</span>
             <span class="label label-danger"
-              >${total_markup_errors['error']} Errors</span>
+                  i18n:translate="">
+              <span i18n:name="number">${total_markup_errors['error']}</span>
+              Errors</span>
           </div>
         </div>
       </div>
       <div class="col-md-3 col-sm-6 col-xs-6">
         <div class="validation-point">
-          <div class="description">Accessibility</div>
-          <span class="label label-warning">000 Warnings</span>
-          <span class="label label-danger">000 Errors</span>
+          <div class="description"
+               i18n:translate="">Accessibility</div>
+          <span class="label label-warning"
+                i18n:translate="">
+            <span i18n:name="number">000</span> Warnings</span>
+          <span class="label label-danger"
+                i18n:translate="">
+            <span i18n:name="number">000</span> Errors</span>
         </div>
       </div>
       <div class="col-md-3 col-sm-6 col-xs-6">
         <div class="validation-point">
-          <div class="description">CSS</div>
+          <div class="description" i18n:translate="">CSS</div>
           <span class="label label-warning"
-            >${total_css_errors['warning']} Warnings</span>
+                i18n:translate="">
+            <span i18n:name="number">${total_css_errors['warning']}</span>
+            Warnings</span>
           <span class="label label-danger"
-            >${total_css_errors['error']} Errors</span>
+                i18n:translate="">
+            <span i18n:name="number">${total_css_errors['error']}</span>
+            Errors</span>
         </div>
       </div>
       <div class="col-md-3 col-sm-6 col-xs-6 text-center">
-        <div class="description"><strong>Number or pages:</strong> <span class="number">${n_urls}</span>
+        <div class="description"><strong i18n:translate="">Number or pages:</strong> <span class="number">${n_urls}</span>
         </div>
         <div>
-          <strong>Status:</strong> ${status}
+          <strong i18n:translate="">Status:</strong> ${status}
             <img
               tal:condition="status_code != 3"
               src="${request.static_url('totalvalidatorfrontend:static/ajax-loader.gif')}" />
         </div>
         <a class="btn btn-primary"
-           href="/session/${session_code}/validate">Re-check site</a>
+           href="/session/${session_code}/validate"
+           i18n:translate="">Re-check site</a>
 
       </div>
 
@@ -64,19 +80,23 @@
       <ul class="nav nav-tabs" role="tablist">
         <li class="active">
           <a href="#urls" role="tab"
-             data-toggle="tab">List of Urls</a></li>
+             data-toggle="tab"
+             i18n:translate="">List of Urls</a></li>
         <li>
           <a href="#markup" role="tab"
-             data-toggle="tab">Markup Errors</a>
+             data-toggle="tab"
+             i18n:translate="">Markup Errors</a>
         </li>
         <li>
           <a href="#accessibility" role="tab"
-             data-toggle="tab">Accessibility Errors</a>
+             data-toggle="tab"
+             i18n:translate="">Accessibility Errors</a>
         </li>
 
         <li>
           <a href="#css" role="tab"
-             data-toggle="tab">CSS</a></li>
+             data-toggle="tab"
+             i18n:translate="">CSS</a></li>
       </ul>
 
       <!-- Tab panes -->
@@ -86,17 +106,19 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th>URL</th>
-                  <th>Last check</th>
-                  <th>HTML</th>
-                  <th>Accessibility</th>
+                  <th i18n:translate="">URL</th>
+                  <th i18n:translate="">Last check</th>
+                  <th i18n:translate="">HTML</th>
+                  <th i18n:translate="">Accessibility</th>
                 </tr>
               </thead>
               <tbody>
                 <tal:results repeat="res urls">
                   <tr>
                     <td class="overview-url">
-                      <a title="Show details" href="./${session_code}/url/${res.id}">${res.url}</a>
+                      <a title="Show details"
+                         i18n:attributes="title"
+                         href="./${session_code}/url/${res.id}">${res.url}</a>
                       <a title="Open ${res.url} page in a new window" target="_blank" href="${res['url']}">
                        <span class="glyphicon glyphicon-new-window"></span></a>
                     </td>
@@ -124,7 +146,8 @@
               <li class="list-group-item">
                 <span class="label label-${res.type}">${res.total}</span>
                 <a href="./${session_code}/markup_error/${res.errorhash}"
-                   title="Show details">${res.error}</a>
+                   title="Show details"
+                   i18n:attributes="title">${res.error}</a>
               </li>
             </tal:results>
           </ul>
@@ -141,7 +164,8 @@
                 <span class="label label-warning">${error['error']}</span>
                 <span class="label label-error">${error['warning']}</span>
                 <a href="./${session_code}/css_url/${res[0]}"
-                   title="Show details">${error['url']}</a>
+                   title="Show details"
+                   i18n:attributes="title">${error['url']}</a>
               </li>
             </tal:results>
           </ul>

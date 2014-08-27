@@ -16,6 +16,8 @@ from ..task import CrawlingTask
 from .utils import base_view_params
 from .utils import errors_formatter
 
+from .. import messageFactory as _
+
 
 @view_config(route_name='overview', renderer='templates/overview.pt')
 def overview(request):
@@ -36,7 +38,7 @@ def overview(request):
     }
 
     for url in url_query:
-        date = "Validating"
+        date = _(u"Validating")
         if url.date:
             date = url.date.strftime(DATETIME_FORMAT)
 
@@ -57,7 +59,7 @@ def overview(request):
                 item['markup_errors'] = [
                     {
                         "class": "label label-success",
-                        "title": "No errors found",
+                        "title": _(u"No errors found"),
                         "errors": "OK"
                     }
                 ]
@@ -65,12 +67,12 @@ def overview(request):
                 item['markup_errors'] = [
                     {
                         "class": "label label-warning",
-                        "title": "N. of warnings",
+                        "title": _(u"N. of warnings"),
                         "errors": warning_markup
                     },
                     {
                         "class": "label label-error",
-                        "title": "N. of errors",
+                        "title": _(u"N. of errors"),
                         "errors": error_markup
                     }
                 ]
@@ -133,7 +135,7 @@ def url_details(request):
 
     url = DBSession.query(URLModel).filter(URLModel.id == url_id).one()
 
-    params = base_view_params(request, "Validation details").copy()
+    params = base_view_params(request, _(u"Validation details")).copy()
 
     markup_query = DBSession.query(MarkupModel).join(
         URLModel, MarkupModel.url == URLModel.url
@@ -202,7 +204,7 @@ def markup_error_details(request):
             "source": item.source,
         })
 
-    params = base_view_params(request, "Error details").copy()
+    params = base_view_params(request, _(u"Error details")).copy()
     params.update({
         "results": results,
         "error_message": error_message,

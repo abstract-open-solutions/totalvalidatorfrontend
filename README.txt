@@ -24,3 +24,27 @@ CELERY::
 REDIS::
 
     ./parts/redis/bin/redis-server parts/redis/redis.conf
+
+
+
+Translations
+============
+
+extract messages and create .pot file::
+
+    >>> ./bin/pot-create -o src/totalvalidatorfrontend/locale/totalvalidatorfrontend.pot src
+
+
+init catalog::
+
+    >>> ./bin/py setup.py init_catalog -l <language code>
+
+
+update catalogs::
+
+    >>> ./bin/py setup.py update_catalog
+
+
+compile catalogs::
+
+    >>> ./bin/py setup.py compile_catalog

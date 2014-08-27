@@ -17,10 +17,10 @@
   <metal:belowtitle fill-slot="below-title">
     <div id="validation-overview"
          class="pull-right">
-      <p><strong>Last checked:</strong>
+      <p><strong i18n:translate="">Last checked:</strong>
         <span>${last_check}</span>
       </p>
-      <a class="btn btn-primary">Re-check the page</a>
+      <a class="btn btn-primary" i18n:translate="">Re-check the page</a>
     </div>
     <div class="clearfix"></div>
   </metal:belowtitle>
@@ -29,17 +29,22 @@
     <ul class="nav nav-tabs" role="tablist">
       <li class="active">
         <a href="#markuperrors" role="tab"
-           data-toggle="tab">${n_markup_errors} Markup errors</a></li>
+           data-toggle="tab"
+           i18n:translate="">
+           <span i18n:name="number">${n_markup_errors}</span> Markup errors</a></li>
       <li>
         <a href="#markupwarnings" role="tab"
-           data-toggle="tab">${n_markup_warnings} Markup warnings</a></li>
+           data-toggle="tab"
+           i18n:translate="">
+           <span i18n:name="number">${n_markup_warnings}</span> Markup warnings</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
       <div class="tab-pane fade in active" id="markuperrors">
         <div tal:condition="not: n_markup_errors"
-             class="alert alert-success">
+             class="alert alert-success"
+             i18n:translate="">
           No errors found
         </div>
         <ul class="list-group"
@@ -50,6 +55,7 @@
                 <span class="label label-error">${error['total']}</span>
                 <a class="folded showhide-trigger"
                    title="Click to show/hide the details"
+                   i18n:attributes="title"
                    href="#">${item[0]}</a>
                 <div class="showhide-panel error-details">
                   <ul>
@@ -67,7 +73,7 @@
                      class="extra-link"
                      target="_blank"><span
                           class="glyphicon glyphicon-new-window"></span>
-                     Show page source</a>
+                     <span i18n:translate="">Show page source</span></a>
                 </div>
               </li>
             </tal:item>
@@ -79,7 +85,8 @@
       <div class="tab-pane fade" id="markupwarnings">
 
         <div tal:condition="not: n_markup_warnings"
-             class="alert alert-success">
+             class="alert alert-success"
+             i18n:translate="">
           No warnings found
         </div>
         <ul class="list-group"
@@ -92,6 +99,7 @@
                 <a class="folded showhide-trigger"
                    tal:omit-tag="not: has_details"
                    title="Click to show/hide the details"
+                   i18n:attributes="title"
                    href="#">${item[0]}</a>
                 <div class="showhide-panel error-details">
                   <ul>

@@ -1,0 +1,275 @@
+# 
+# SOME DESCRIPTIVE TITLE
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE 1.0\n"
+"POT-Creation-Date: 2014-08-27 17:31+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+
+#: ./src/totalvalidatorfrontend/forms.py:21
+msgid "Site url to validate"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/forms.py:29
+msgid "Max number of page to validate"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/forms.py:30
+msgid ""
+"Insert a number from 0 to 999 to limit the number of page to validate. 0 "
+"value or no value mean no limit."
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/forms.py:49
+msgid "Validate"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/css_details.py:66
+msgid "CSS URL details"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/css_details.py:113
+msgid "CSS Error details"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/index.py:40
+msgid "Dashboard"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/newsession.py:62
+#, python-format
+msgid "Added ${url} validation session"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/newsession.py:26
+#: ./src/totalvalidatorfrontend/views/newsession.py:39
+msgid "New Session"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/newsession.py:78
+msgid "Error on create new validation session"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/session.py:41
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:160
+msgid "Validating"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/session.py:138
+msgid "Validation details"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/session.py:207
+#: ./src/totalvalidatorfrontend/views/templates/markup_error_details.pt:9
+msgid "Error details"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/session.py:62
+#: ./src/totalvalidatorfrontend/views/templates/css_url_details.pt:45
+#: ./src/totalvalidatorfrontend/views/templates/css_url_details.pt:101
+#: ./src/totalvalidatorfrontend/views/templates/url_details.pt:72
+msgid "No errors found"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/session.py:70
+msgid "N. of warnings"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/session.py:75
+msgid "N. of errors"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/css_error_details.pt:21
+msgid "No url found"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/css_error_details.pt:37
+msgid "Click to show/hide the details"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/css_error_details.pt:58
+msgid "Show report by url"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/css_error_details.pt:65
+msgid "Show source"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/css_url_details.pt:28
+msgid "Errors"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/css_url_details.pt:33
+msgid "Warnings"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/css_url_details.pt:83
+#: ./src/totalvalidatorfrontend/views/templates/css_url_details.pt:139
+msgid "Show report by error"
+msgstr ""
+
+#. Default: <dynamic element> a new validation session.
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:17
+msgid "step_1"
+msgstr ""
+
+#. Default: <dynamic element> while the system cooks your data.
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:36
+msgid "step_2"
+msgstr ""
+
+#. Default: <dynamic element> and analyze the results.
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:57
+msgid "step_3"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:78
+msgid "No session found"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:85
+msgid "Add validation session"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:94
+msgid "Found ${number} sessions"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:112
+msgid "Session"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:115
+msgid "Status"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:118
+msgid "Pages"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:121
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:185
+msgid "Last check"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:124
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:188
+msgid "HTML"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:127
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:58
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:191
+msgid "Accessibility"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:130
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:81
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:162
+msgid "CSS"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:133
+msgid "Actions"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:153
+msgid "Scraping"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:165
+msgid "Done"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/main.pt:99
+msgid "Logout"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/main.pt:106
+msgid "Log in"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/markup_error_details.pt:58
+msgid "Open url validation details"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:11
+msgid "Validation overview"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:29
+msgid "Markup"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:34
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:61
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:84
+msgid "${number} Warnings"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:41
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:67
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:91
+msgid "${number} Errors"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:104
+msgid "Number or pages:"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:113
+msgid "Status:"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:120
+msgid "Re-check site"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:142
+msgid "List of Urls"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:147
+msgid "Markup Errors"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:154
+msgid "Accessibility Errors"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/overview.pt:182
+msgid "URL"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/url_details.pt:25
+msgid "Last checked:"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/url_details.pt:33
+msgid "Re-check the page"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/url_details.pt:49
+msgid "${number} Markup errors"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/url_details.pt:57
+msgid "${number} Markup warnings"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/url_details.pt:110
+msgid "Show page source"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/url_details.pt:130
+msgid "No warnings found"
+msgstr ""
