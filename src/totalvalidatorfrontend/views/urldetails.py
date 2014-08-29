@@ -15,7 +15,9 @@ from .utils import accessiblity_errors_formatter
 from .. import messageFactory as _
 
 
-@view_config(route_name='url_details', renderer='templates/url_details.pt')
+@view_config(route_name='url_details',
+             renderer='templates/url_details.pt',
+             permission='view')
 def url_details(request):
     code = request.matchdict['code']
     url_id = request.matchdict['id']

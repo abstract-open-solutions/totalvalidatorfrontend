@@ -12,7 +12,8 @@ from .. import messageFactory as _
 
 
 @view_config(route_name='markup_error_details',
-             renderer='templates/markup_error_details.pt')
+             renderer='templates/markup_error_details.pt',
+             permission='view')
 def markup_error_details(request):
     code = request.matchdict['code']
     errorhash = request.matchdict['errorhash']
@@ -75,7 +76,8 @@ def markup_error_details(request):
 
 
 @view_config(route_name='accessiblity_error_details',
-             renderer='templates/accessiblity_error_details.pt')
+             renderer='templates/accessiblity_error_details.pt',
+             permission='view')
 def accessiblity_error_details(request):
     code = request.matchdict['code']
     errorhash = request.matchdict['errorhash']

@@ -1,7 +1,9 @@
+from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.config import Configurator
-from pyramid.i18n import default_locale_negotiator
 from pyramid.i18n import TranslationStringFactory
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+from pyramid.i18n import default_locale_negotiator
 from sqlalchemy import engine_from_config
 
 from .models import DBSession
@@ -22,7 +24,17 @@ def main(global_config, **settings):
     Base.metadata.tables['session'].create(checkfirst=True)
     _session_factory = UnencryptedCookieSessionFactoryConfig('totalvalidator')
 
-    config = Configurator(settings=settings, session_factory=_session_factory)
+    config = Configurator(
+        settings=settings,
+        session_factory=_session_factory,
+        root_factory='.models.RootFactory'
+    )
+
+    authn_policy = AuthTktAuthenticationPolicy('sosecret', hashalg='sha512')
+    authz_policy = ACLAuthorizationPolicy()
+    config.set_authentication_policy(authn_policy)
+    config.set_authorization_policy(authz_policy)
+
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
 

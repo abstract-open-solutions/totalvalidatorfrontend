@@ -8,6 +8,8 @@ from ..models import get_urls_model
 from ..utils import get_validation_session
 from ..models import get_css_validator_model
 
+from .. import messageFactory as _
+
 
 def get_n_pages(session_code):
     session = get_validation_session(session_code)
@@ -32,13 +34,13 @@ def get_errors(session_code):
             {
                 "attr": "warning_markup",
                 "class": "label label-warning",
-                "title": "N. of warnings",
+                "title": _(u"N. of warnings"),
                 "errors": 0
             },
             {
                 "attr": "error_markup",
                 "class": "label label-error",
-                "title": "N. of errors",
+                "title": _(u"N. of errors"),
                 "errors": 0
             }
         ],
@@ -46,13 +48,13 @@ def get_errors(session_code):
             {
                 "attr": "warning_accessibility",
                 "class": "label label-warning",
-                "title": "N. of warnings",
+                "title": _(u"N. of warnings"),
                 "number": 0
             },
             {
                 "attr": "error_accessibility",
                 "class": "label label-error",
-                "title": "N. of errors",
+                "title": _(u"N. of errors"),
                 "number": 0
             }
         ]
@@ -75,7 +77,7 @@ def get_errors(session_code):
                     {
                         "attr": None,
                         "class": "label label-success",
-                        "title": "No errors found",
+                        "title": _(u"No errors found"),
                         "errors": "OK"
                     }
                 ]
@@ -94,12 +96,12 @@ def get_errors(session_code):
     errors['css'] = [
         {
             "class": "label label-warning",
-            "title": "N. of warnings",
+            "title": _(u"N. of warnings"),
             "errors": css_errors["warning"]
         },
         {
             "class": "label label-error",
-            "title": "N. of errors",
+            "title": _(u"N. of errors"),
             "errors": css_errors["error"]
         }
     ]
@@ -145,8 +147,8 @@ def base_view_params(request, title, active_menu=None):
         'actions': [
             {
                 'url': "/new",
-                'title': 'Create new validation session',
-                'content': 'Add validation session',
+                'title': _(u'Create new validation session'),
+                'content': _(u'Add validation session'),
                 'class': set_active(active_menu, 'new_session'),
                 'id': 'new_session'
             }

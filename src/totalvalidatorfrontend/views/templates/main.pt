@@ -60,7 +60,23 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-
+              <li>
+                  <form class="navbar-form"
+                      id="change-language"
+                      action="/set_lang" method="GET">
+                  <div class="form-group">
+                    <label for="lang">Select your language</label>
+                    <select class="form-control" name="lang">
+                      <tal:languages repeat="lang languages">
+                        <option
+                          tal:attributes="value lang['name'];
+                            selected lang['active'] and 'active' or None"
+                            >${lang['title']}</option>
+                      </tal:languages>
+                    </select>
+                  </div>
+                </form>
+              </li>
               <li class="left-divider">
               <tal:user condition="username">
                 <a href="/logout"
@@ -72,22 +88,6 @@
               </tal:anonymous>
               </li>
             </ul>
-
-            <form class="navbar-form navbar-right"
-                  id="change-language"
-                  action="/set_lang" method="GET">
-              <div class="form-group">
-                <label for="lang">Select your language</label>
-                <select class="form-control" name="lang">
-                  <tal:languages repeat="lang languages">
-                    <option
-                      tal:attributes="value lang['name'];
-                        selected lang['active'] and 'active' or None"
-                        >${lang['title']}</option>
-                  </tal:languages>
-                </select>
-              </div>
-            </form>
 
           </div>
         </div>

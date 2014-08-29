@@ -8,7 +8,8 @@ from .. import messageFactory as _
 
 
 @view_config(route_name='css_url_details',
-             renderer='templates/css_url_details.pt')
+             renderer='templates/css_url_details.pt',
+             permission='view')
 def css_url_details(request):
     code = request.matchdict['code']
     urlhash = request.matchdict['urlhash']
@@ -87,7 +88,8 @@ def css_url_details(request):
 
 
 @view_config(route_name='css_error_details',
-             renderer='templates/css_error_details.pt')
+             renderer='templates/css_error_details.pt',
+             permission='view')
 def css_error_details(request):
     code = request.matchdict['code']
     errorhash = request.matchdict['errorhash']

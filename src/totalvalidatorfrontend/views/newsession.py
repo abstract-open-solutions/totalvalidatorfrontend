@@ -20,7 +20,8 @@ from .. import messageFactory as _
 
 @view_config(route_name='new_session',
              renderer='templates/simple_form.pt',
-             request_method="GET")
+             request_method="GET",
+             permission='add')
 def new_session(request):
     form = new_session_form()
     params = base_view_params(request, _(u"New Session"), 'new_session').copy()
@@ -34,7 +35,8 @@ def new_session(request):
 
 @view_config(route_name='new_session',
              renderer='templates/simple_form.pt',
-             request_method="POST")
+             request_method="POST",
+             permission='add')
 def new_session_action(request):
     form = new_session_form()
     params = base_view_params(request, _(u"New Session"), 'new_session').copy()

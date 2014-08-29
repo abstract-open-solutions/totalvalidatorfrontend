@@ -12,7 +12,9 @@ from .. import messageFactory as _
 BATCH_SIZE = 20
 
 
-@view_config(route_name='home', renderer='templates/index.pt')
+@view_config(route_name='home',
+             renderer='templates/index.pt',
+             permission='view')
 def index(request):
     query = DBSession.query(ValidationSessionModel)
     num_results = query.count()

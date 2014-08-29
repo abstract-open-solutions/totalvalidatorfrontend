@@ -21,7 +21,9 @@ from .utils import base_view_params
 from .. import messageFactory as _
 
 
-@view_config(route_name='overview', renderer='templates/overview.pt')
+@view_config(route_name='overview',
+             renderer='templates/overview.pt',
+             permission='view')
 def overview(request):
     code = request.matchdict['code']
     session = get_validation_session(code)
@@ -180,7 +182,7 @@ def overview(request):
     return params
 
 
-@view_config(route_name="validate")
+@view_config(route_name="validate", permission='validate')
 def validate(request):
     code = request.matchdict['code']
     session = get_validation_session(code)
@@ -200,7 +202,7 @@ def validate(request):
     return HTTPFound(location=url)
 
 
-@view_config(route_name='set_lang')
+@view_config(route_name='set_lang', permission='view')
 def set_locale_cookie(request):
     if request.GET['lang']:
         language = request.GET['lang']

@@ -1,4 +1,10 @@
 # -*- encoding: utf-8 -*-
+from pyramid.security import Allow
+from pyramid.security import ALL_PERMISSIONS
+from pyramid.security import Deny
+from pyramid.security import Everyone
+from pyramid.security import Authenticated
+
 from sqlalchemy import Table
 from sqlalchemy import Column
 from sqlalchemy import Index
@@ -17,6 +23,16 @@ from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
+
+
+class RootFactory(object):
+    __acl__ = [
+        (Allow, Everyone, ALL_PERMISSIONS),
+        (Allow, Authenticated, ALL_PERMISSIONS),
+    ]
+
+    def __init__(self, request):
+        pass
 
 
 class ValidationSessionModel(Base):

@@ -13,7 +13,9 @@
           <div class="panel-body bg-danger">
             <span class="icon"><span class="glyphicon glyphicon-plus"></span></span>
             <p class="lead"
-              i18n:translate="step_1"><strong>Create</strong> a new validation session.</p>
+              i18n:translate="step_1"><strong
+               i18n:name="create"
+               i18n:translate="">Create</strong> a new validation session.</p>
           </div>
         </div>
       </div>
@@ -25,7 +27,9 @@
               class="glyphicon glyphicon-fire"></span></span>
             <p class="lead"
               i18n:translate="step_2">
-              <strong>Wait</strong> while the system cooks your data.</p>
+              <strong
+                i18n:name="wait"
+                i18n:translate="">Wait</strong> while the system cooks your data.</p>
           </div>
         </div>
       </div>
@@ -36,7 +40,9 @@
             <span class="icon"><span class="glyphicon glyphicon-folder-open"></span></span>
             <p class="lead"
               i18n:translate="step_3">
-              <strong>Display</strong> and analyze the results.</p>
+              <strong
+                i18n:name="display"
+                i18n:translate="">Display</strong> and analyze the results.</p>
           </div>
         </div>
       </div>
