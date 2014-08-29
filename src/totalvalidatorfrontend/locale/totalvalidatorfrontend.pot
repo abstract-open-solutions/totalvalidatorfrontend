@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE 1.0\n"
-"POT-Creation-Date: 2014-08-29 13:19+0200\n"
+"POT-Creation-Date: 2014-08-29 13:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -245,6 +245,14 @@ msgstr ""
 
 #: ./src/totalvalidatorfrontend/views/templates/index.pt:149
 msgid "Actions"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:233
+msgid "Visualize data"
+msgstr ""
+
+#: ./src/totalvalidatorfrontend/views/templates/index.pt:240
+msgid "Revalidate"
 msgstr ""
 
 #: ./src/totalvalidatorfrontend/views/templates/index.pt:247

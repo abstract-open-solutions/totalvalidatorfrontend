@@ -126,11 +126,15 @@
                 </tal:errors>
               </td>
               <td>
-                <a href="/session/${res.code}" title="Visualize data">
+                <a href="/session/${res.code}"
+                   title="Visualize data"
+                   i18n:attributes="title">
                   <span class="glyphicon glyphicon-folder-open"></span>
                 </a>
                 &nbsp;
-                <a href="/session/${res.code}/validate" title="Revalidate">
+                <a href="/session/${res.code}/validate"
+                   title="Revalidate"
+                   i18n:attributes="title">
                   <span class="glyphicon glyphicon-refresh"></span>
                 </a>
                 &nbsp;
