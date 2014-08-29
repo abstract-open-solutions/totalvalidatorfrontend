@@ -23,7 +23,7 @@ from .. import messageFactory as _
              request_method="GET",
              permission='add')
 def new_session(request):
-    form = new_session_form()
+    form = new_session_form(request)
     params = base_view_params(request, _(u"New Session"), 'new_session').copy()
     params.update({
         'form': form.render(),
@@ -38,7 +38,7 @@ def new_session(request):
              request_method="POST",
              permission='add')
 def new_session_action(request):
-    form = new_session_form()
+    form = new_session_form(request)
     params = base_view_params(request, _(u"New Session"), 'new_session').copy()
     params['form'] = form.render()
     params['actions'] = []

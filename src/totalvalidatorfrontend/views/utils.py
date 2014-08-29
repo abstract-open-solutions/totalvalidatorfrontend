@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from pyramid.renderers import get_renderer
+from pyramid.security import authenticated_userid
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy import func
 from ..config import LANGUAGES
@@ -138,9 +139,10 @@ def get_languages(request):
 def base_view_params(request, title, active_menu=None):
     renderer = get_renderer('templates/main.pt')
     set_active = lambda x, y: (x is not None and x == y) and 'active' or None
+
     params = {
         'status_messages': request.session.pop_flash(),
-        'username': None,
+        'username': authenticated_userid(request),
         'languages': get_languages(request),
         'main': renderer.implementation(),
         'title': title,

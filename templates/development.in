@@ -3,7 +3,7 @@
 # http://docs.pylonsproject.org/projects/pyramid/en/1.5-branch/narr/environment.html
 ###
 
-[app:main]
+[app:totalvalidatorfrontent]
 use = egg:totalvalidatorfrontend
 
 pyramid.reload_templates = true
@@ -46,6 +46,19 @@ BROKER_URL = redis://localhost:6379/0
 use = egg:waitress#main
 host = 0.0.0.0
 port = 6543
+
+
+[pipeline:main]
+pipeline =
+    who
+    totalvalidatorfrontent
+
+
+[filter:who]
+use = egg:repoze.who#config
+config_file = %(here)s/who.ini
+log_file = stdout
+log_level = error
 
 ###
 # logging configuration

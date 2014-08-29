@@ -1,16 +1,46 @@
+# -*- encoding: utf-8 -*-
 import colander
 from deform import Form
+from deform import ZPTRendererFactory
 from deform.schema import FileData
-from deform.widget import CheckboxChoiceWidget
+from deform.widget import HiddenWidget
+from deform.widget import PasswordWidget
+from pkg_resources import resource_filename
+from pyramid.i18n import get_localizer
+from pyramid.i18n import get_locale_name
+from pyramid.threadlocal import get_current_request
 from pyramid.view import view_config
 from . import messageFactory as _
 
+# from deform.widget import CheckboxChoiceWidget
+# VALIDATORS = (
+#     ('html', 'HTML Markup'),
+#     ('accessibility', 'Accessibility'),
+#     ('css', 'CSS')
+# )
 
-VALIDATORS = (
-    ('html', 'HTML Markup'),
-    ('accessibility', 'Accessibility'),
-    ('css', 'CSS')
-)
+
+def deform_translator(term):
+    return get_localizer(get_current_request()).translate(term)
+
+
+def get_deform_renderer():
+    deform_template_dir = resource_filename('deform', 'templates/')
+
+    return ZPTRendererFactory(
+        [deform_template_dir], translator=deform_translator)
+
+
+def wrap_schema(schema, request):
+    locale_name = get_locale_name(request)
+
+    class Schema(schema):
+        _LOCALE_ = colander.SchemaNode(
+            colander.String(),
+            widget=HiddenWidget(),
+            default=locale_name)
+
+    return Schema
 
 
 class Session(colander.MappingSchema):
@@ -43,8 +73,29 @@ class Session(colander.MappingSchema):
     # )
 
 
-def new_session_form():
+def new_session_form(request):
     """Return a Deform form for validation session."""
-    schema = Session()
+    schema = wrap_schema(Session, request)()
     _form = Form(schema, buttons=(_(u'Validate'),))
+    return _form
+
+
+class Login(colander.MappingSchema):
+    """Validation session's form schema"""
+    login = colander.SchemaNode(
+        colander.String(),
+        title=_(u"Username")
+    )
+
+    password = colander.SchemaNode(
+        colander.String(),
+        widget=PasswordWidget(),
+        title=_(u"Password")
+    )
+
+
+def login_form(request):
+    """Return a Deform form for login."""
+    schema = wrap_schema(Login, request)()
+    _form = Form(schema, buttons=(_(u'Login'),))
     return _form

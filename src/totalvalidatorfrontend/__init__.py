@@ -1,5 +1,12 @@
+# -*- encoding: utf-8 -*-
+import deform
+
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authentication import RepozeWho1AuthenticationPolicy
+
+from pyramid_who.whov2 import WhoV2AuthenticationPolicy
+
+
 from pyramid.config import Configurator
 from pyramid.i18n import TranslationStringFactory
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
@@ -30,21 +37,49 @@ def main(global_config, **settings):
         root_factory='.models.RootFactory'
     )
 
-    authn_policy = AuthTktAuthenticationPolicy('sosecret', hashalg='sha512')
-    authz_policy = ACLAuthorizationPolicy()
-    config.set_authentication_policy(authn_policy)
-    config.set_authorization_policy(authz_policy)
+    # config_file = '/Users/giorgio/sviluppo/abstract/totalvalidator_frontend/etc/who.ini'
+    # authentication_policy = WhoV2AuthenticationPolicy(
+    #     config_file,
+    #     "auth_tkt_plugin",
+    #     # callback=verify_user
+    # )
+
+    authentication_policy = RepozeWho1AuthenticationPolicy(
+        identifier_name="__ac",
+    )
+    config.set_authentication_policy(authentication_policy)
+
+    authorization_policy = ACLAuthorizationPolicy()
+    config.set_authorization_policy(authorization_policy)
 
     config.include('pyramid_chameleon')
-    config.add_static_view('static', 'static', cache_max_age=3600)
+
+    from .forms import get_deform_renderer
+    deform.Form.set_default_renderer(
+        config.maybe_dotted(get_deform_renderer())
+    )
+
+    config.add_static_view(
+        'static',
+        'static',
+        permission='public',
+        cache_max_age=3600
+    )
 
     # internationalization
-    config.add_translation_dirs('totalvalidatorfrontend:locale/')
+    config.add_translation_dirs(
+        'totalvalidatorfrontend:locale/',
+        'colander:locale',
+        'deform:locale',
+    )
     config.set_locale_negotiator(default_locale_negotiator)
 
     # routes
     config.add_route('home', '/')
+    config.add_route('login', '/login')
+    config.add_route('logout', '/logout')
     config.add_route('set_lang', '/set_lang')
+
     config.add_route('new_session', '/new')
     config.add_route('delete', '/delete/{code}')
     config.add_route('overview', '/session/{code}')

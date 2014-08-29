@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 from pyramid.security import Allow
+from pyramid.security import DENY_ALL
 from pyramid.security import ALL_PERMISSIONS
-from pyramid.security import Deny
-from pyramid.security import Everyone
 from pyramid.security import Authenticated
+from pyramid.security import Everyone
 
 from sqlalchemy import Table
 from sqlalchemy import Column
@@ -27,8 +27,9 @@ Base = declarative_base()
 
 class RootFactory(object):
     __acl__ = [
-        (Allow, Everyone, ALL_PERMISSIONS),
         (Allow, Authenticated, ALL_PERMISSIONS),
+        (Allow, Everyone, 'public'),
+        DENY_ALL
     ]
 
     def __init__(self, request):

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="totalvalidatorfrontend"
+  metal:use-macro="main.macros['main']">
+
+  <metal:main_nav fill-slot="main_nav" />
+
+  <metal:main fill-slot="main_content">
+    <tal:form replace="structure form" />
+  </metal:main>
+
+</html>

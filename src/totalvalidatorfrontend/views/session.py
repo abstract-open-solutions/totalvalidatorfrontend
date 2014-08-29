@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
-from pyramid.response import Response
 
 from sqlalchemy import func
 
@@ -200,19 +199,3 @@ def validate(request):
 
     url = request.route_url('overview', code=code)
     return HTTPFound(location=url)
-
-
-@view_config(route_name='set_lang', permission='view')
-def set_locale_cookie(request):
-    if request.GET['lang']:
-        language = request.GET['lang']
-        response = Response()
-        response.set_cookie(
-            '_LOCALE_',
-            value=language,
-            max_age=31536000  # max_age = year
-        )
-    return HTTPFound(
-        location=request.environ['HTTP_REFERER'],
-        headers=response.headers
-    )

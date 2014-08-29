@@ -78,14 +78,20 @@
                 </form>
               </li>
               <li class="left-divider">
-              <tal:user condition="username">
-                <a href="/logout"
-                   i18n:translate="">Logout</a>
-              </tal:user>
-              <tal:anonymous condition="not: username">
-                <a href="/login"
-                   i18n:translate="">Log in</a>
-              </tal:anonymous>
+                <tal:user condition="username">
+                  <a href="#" class="dropdown-toggle"
+                    data-toggle="dropdown">${username}
+                      <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="/logout"
+                     i18n:translate="">Logout</a></li>
+                  </ul>
+                </tal:user>
+                <tal:anonymous condition="not: username">
+                  <a href="/login"
+                     i18n:translate="">Log in</a>
+                </tal:anonymous>
               </li>
             </ul>
 
@@ -96,21 +102,6 @@
 
     <div class="container">
       <section>
-        <tal:messages tal:condition="status_messages|nothing">
-          <tal:alert repeat="message status_messages">
-            <div class="alert ${message['class']} alert-dismissible"
-                 role="alert">
-              <button type="button"
-                      class="close"
-                      data-dismiss="alert">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
-              </button>
-              ${message['message']}
-            </div>
-          </tal:alert>
-        </tal:messages>
-
         <metal:intro define-slot="intro"></metal:intro>
 
         <ol class="breadcrumb" tal:condition="breadcrumbs|nothing">
@@ -130,6 +121,21 @@
             <h1>${title}</h1>
           </div>
         </tal:block>
+
+        <tal:messages tal:condition="status_messages|nothing">
+          <tal:alert repeat="message status_messages">
+            <div class="alert ${message['class']} alert-dismissible"
+                 role="alert">
+              <button type="button"
+                      class="close"
+                      data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+              </button>
+              ${message['message']}
+            </div>
+          </tal:alert>
+        </tal:messages>
 
         <metal:belowtitle define-slot="below-title"></metal:belowtitle>
 
