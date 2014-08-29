@@ -80,9 +80,7 @@ def login(request):
                 _(u"Invalid username or password"),
                 type_='danger'
             )
-            return HTTPFound(
-                location=login_url
-            )
+            return HTTPFound(location=request.route_url('login'))
     return params
 
 
