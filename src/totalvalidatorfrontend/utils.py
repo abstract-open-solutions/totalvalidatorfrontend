@@ -110,17 +110,46 @@ def import_accessibility_data(filepath, session_code):
     :param session_code: validation session uuid
     :type session_code: string
     """
-    # TODO:
-    # reader = csv.DictReader(filepath)
-    # Model = get_accessibility_validator_model(session_code)
 
-    # # Empty table
-    # DBSession.query(Model).delete()
+    fp = open(filepath, 'r')
+    reader = csv.DictReader(fp)
+    Model = get_accessibility_validator_model(session_code)
 
-    # for item in reader:
-    #     # convert to Unicode
-    #     row = dict_to_unicode(item)
-    #     DBSession.add(Model(**row))
+    # Empty table
+    DBSession.query(Model).delete()
+
+    for item in reader:
+        # convert to Unicode
+        row = dict_to_unicode(item)
+
+        type_convert = {
+            "Error": "error",
+            "Likely Problem": "warning"
+        }
+        row['type'] = type_convert.get(item['type'], 'error')
+        sha = hashlib.sha1(item["url"])
+        row['urlhash'] = sha.hexdigest()
+        sha = hashlib.sha1(item["error"])
+        row['errorhash'] = sha.hexdigest()
+
+        DBSession.add(Model(**row))
+
+    fp.close()
+
+
+def update_errors(session_code, results, error_types):
+    UrlsModel = get_urls_model(session_code)
+
+    for item in results:
+        column = error_types.get(item.type)
+        if not column:
+            continue
+
+        DBSession.query(UrlsModel).filter(
+            UrlsModel.url == item.url
+        ).update(
+            {column: item.n_errors}
+        )
 
 
 def update_errors_totals(session):
@@ -130,8 +159,8 @@ def update_errors_totals(session):
     :type session: ...
     """
     session_code = session.code
-    UrlsModel = get_urls_model(session_code)
     MarkupModel = get_markup_validator_model(session_code)
+    AccessibilityModel = get_accessibility_validator_model(session_code)
 
     # error type | urls column
     error_types = {
@@ -151,13 +180,22 @@ def update_errors_totals(session):
         MarkupModel.url, MarkupModel.type
     )
 
-    for item in query:
-        column = error_types.get(item.type)
-        if not column:
-            continue
+    update_errors(session_code, query, error_types)
+    # accessibility totals
+    # error type | urls column
+    error_types = {
+        u"warning": "warning_accessibility",
+        u"error": "error_accessibility",
+    }
 
-        DBSession.query(UrlsModel).filter(
-            UrlsModel.url == item.url
-        ).update(
-            {column: item.n_errors}
-        )
+    query = DBSession.query(
+        func.count(AccessibilityModel.type).label("n_errors"),
+        AccessibilityModel.type,
+        AccessibilityModel.url
+    ).group_by(
+        AccessibilityModel.url, AccessibilityModel.type
+    ).order_by(
+        AccessibilityModel.url, AccessibilityModel.type
+    )
+
+    update_errors(session_code, query, error_types)

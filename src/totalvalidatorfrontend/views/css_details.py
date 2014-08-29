@@ -63,12 +63,24 @@ def css_url_details(request):
             'context': row.context,
             'type': row.type
         })
-    params = base_view_params(request, _(u'CSS URL details')).copy()
+
+    title = _(u'CSS URL details')
+    params = base_view_params(request, title).copy()
     params.update({
         "url": url,
         "errors": errors,
         "warnings": warnings,
-        "code": code
+        "code": code,
+        "breadcrumbs": [
+            {
+                "title": _(u"Validation overview"),
+                "url": "/session/{}".format(code)
+            },
+            {
+                "title": title,
+                "url": None
+            }
+        ]
     })
 
     return params
@@ -110,11 +122,22 @@ def css_error_details(request):
             'source': row.source
         })
 
-    params = base_view_params(request, _(u'CSS Error details')).copy()
+    title = _(u'CSS Error details')
+    params = base_view_params(request, title).copy()
     params.update({
         "urls": results,
         "error_message": error_message,
-        "code": code
+        "code": code,
+        "breadcrumbs": [
+            {
+                "title": _(u"Validation overview"),
+                "url": "/session/{}".format(code)
+            },
+            {
+                "title": title,
+                "url": None
+            }
+        ]
     })
 
     return params

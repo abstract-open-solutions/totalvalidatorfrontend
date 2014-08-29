@@ -206,3 +206,11 @@ a.folded:before {
 .validation-point .number {
     padding-left: .5em;
 }
+
+.overview-result-details {
+    margin-bottom: 2em;
+}
+
+#change-language label {
+    display: none;
+}

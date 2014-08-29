@@ -1,20 +1,22 @@
 # -*- encoding: utf-8 -*-
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
+from pyramid.response import Response
+
 from sqlalchemy import func
 
 from ..config import DATETIME_FORMAT
 from ..config import SESSION_STATUS
 from ..models import DBSession
+from ..models import create_or_clean_tables
+from ..models import get_accessibility_validator_model
+from ..models import get_css_validator_model
 from ..models import get_markup_validator_model
 from ..models import get_urls_model
-from ..utils import get_validation_session
-from ..models import get_css_validator_model
-from ..models import empty_tables
 from ..task import CrawlingTask
 
+from ..utils import get_validation_session
 from .utils import base_view_params
-from .utils import errors_formatter
 
 from .. import messageFactory as _
 
@@ -28,11 +30,17 @@ def overview(request):
 
     URLModel = get_urls_model(code)
 
-    MarkupModel = get_markup_validator_model(code)
+    # Errors per url
+
     url_query = DBSession.query(URLModel)
     n_urls = url_query.count()
     urls = []
     total_markup_errors = {
+        'warning': 0,
+        'error': 0
+    }
+
+    total_accessibility_errors = {
         'warning': 0,
         'error': 0
     }
@@ -46,11 +54,12 @@ def overview(request):
             "id": url.id,
             "url": url.url,
             "date": date,
-            "markup_errors": []
+            "markup_errors": [],
+            "accessibility_errors": []
         }
         if session.status == 3:
-            warning_markup = url.warning_markup
             error_markup = url.error_markup
+            warning_markup = url.warning_markup
 
             total_markup_errors['error'] += error_markup
             total_markup_errors['warning'] += warning_markup
@@ -76,8 +85,39 @@ def overview(request):
                         "errors": error_markup
                     }
                 ]
+
+            error_accessibility = url.error_accessibility
+            warning_accessibility = url.warning_accessibility
+
+            total_accessibility_errors['error'] += error_accessibility
+            total_accessibility_errors['warning'] += warning_accessibility
+
+            if (error_accessibility + warning_accessibility) == 0:
+                item['accessibility_errors'] = [
+                    {
+                        "class": "label label-success",
+                        "title": _(u"No errors found"),
+                        "errors": "OK"
+                    }
+                ]
+            else:
+                item['accessibility_errors'] = [
+                    {
+                        "class": "label label-warning",
+                        "title": _(u"N. of warnings"),
+                        "errors": warning_accessibility
+                    },
+                    {
+                        "class": "label label-error",
+                        "title": _(u"N. of errors"),
+                        "errors": error_accessibility
+                    }
+                ]
+
         urls.append(item)
 
+    # markup errors
+    MarkupModel = get_markup_validator_model(code)
     markup_query = DBSession.query(
         func.count(MarkupModel.errorhash).label("total"),
         MarkupModel.error,
@@ -85,6 +125,16 @@ def overview(request):
         MarkupModel.errorhash
     ).group_by(MarkupModel.errorhash).order_by(MarkupModel.type)
 
+    # Accessibility errors
+    AccessiblityModel = get_accessibility_validator_model(code)
+    accessibility_query = DBSession.query(
+        func.count(AccessiblityModel.errorhash).label("total"),
+        AccessiblityModel.error,
+        AccessiblityModel.type,
+        AccessiblityModel.errorhash
+    ).group_by(AccessiblityModel.errorhash).order_by(AccessiblityModel.type)
+
+    # CSS Errors
     css_errors = {}
     total_css_errors = {
         'warning': 0,
@@ -115,102 +165,18 @@ def overview(request):
         "session_code": code,
         "markup_errors": markup_query,
         "total_markup_errors": total_markup_errors,
+        "accessibility_errors": accessibility_query,
+        "total_accessibility_errors": total_accessibility_errors,
         "n_urls": n_urls,
         "urls": urls,
         "status": SESSION_STATUS.get(session.status),
-        "status_code": session.status
+        "status_code": session.status,
+        "breadcrumbs": [
+            {"title": _(u"Validation overview"), "url": None}
+        ]
     }
     params.update(extra_params)
 
-    return params
-
-
-@view_config(route_name='url_details', renderer='templates/url_details.pt')
-def url_details(request):
-    code = request.matchdict['code']
-    url_id = request.matchdict['id']
-
-    URLModel = get_urls_model(code)
-    MarkupModel = get_markup_validator_model(code)
-
-    url = DBSession.query(URLModel).filter(URLModel.id == url_id).one()
-
-    params = base_view_params(request, _(u"Validation details")).copy()
-
-    markup_query = DBSession.query(MarkupModel).join(
-        URLModel, MarkupModel.url == URLModel.url
-    ).filter(
-        URLModel.id == url_id
-    ).order_by(MarkupModel.type)
-
-    markup_errors = errors_formatter(
-        markup_query.filter(MarkupModel.type == 'error')
-    )
-
-    markup_warnings = errors_formatter(
-        markup_query.filter(MarkupModel.type == 'warning'),
-    )
-
-    params.update({
-        "markup_errors": markup_errors[1],
-        "n_markup_errors": markup_errors[0],
-        "markup_warnings": markup_warnings[1],
-        "n_markup_warnings": markup_warnings[0],
-        "url": url.url,
-        "last_check": url.date.strftime(DATETIME_FORMAT)
-    })
-    return params
-
-
-@view_config(route_name='markup_error_details',
-             renderer='templates/markup_error_details.pt')
-def markup_error_details(request):
-    code = request.matchdict['code']
-    errorhash = request.matchdict['errorhash']
-
-    URLModel = get_urls_model(code)
-    MarkupModel = get_markup_validator_model(code)
-
-    query = DBSession.query(
-        MarkupModel,
-        URLModel.id.label("url_id")
-    ).join(
-        URLModel,
-        URLModel.url == MarkupModel.url
-    ).filter(
-        MarkupModel.errorhash == errorhash
-    )
-
-    error_message = None
-    details = None
-    results = {}
-    for result in query:
-        item = result[0]
-        if not error_message:
-            error_message = item.error
-            details = item.detail
-        if not results.get(item.url):
-            results[item.url] = {
-                "total": 0,
-                "references": [],
-                "type": item.type
-            }
-        error = results[item.url]
-        error["total"] += 1
-        error["url_id"] = result[1]
-        print item.id
-        error["references"].append({
-            "position": "L {} C {}".format(item.line, item.column),
-            "source": item.source,
-        })
-
-    params = base_view_params(request, _(u"Error details")).copy()
-    params.update({
-        "results": results,
-        "error_message": error_message,
-        "details": details,
-        "session_code": code,
-    })
     return params
 
 
@@ -220,7 +186,8 @@ def validate(request):
     session = get_validation_session(code)
 
     # 1. clean all tables
-    empty_tables(code)
+    create_or_clean_tables(code)
+
     # 2. change session status
     session.status = 1
     DBSession.flush()
@@ -231,3 +198,19 @@ def validate(request):
 
     url = request.route_url('overview', code=code)
     return HTTPFound(location=url)
+
+
+@view_config(route_name='set_lang')
+def set_locale_cookie(request):
+    if request.GET['lang']:
+        language = request.GET['lang']
+        response = Response()
+        response.set_cookie(
+            '_LOCALE_',
+            value=language,
+            max_age=31536000  # max_age = year
+        )
+    return HTTPFound(
+        location=request.environ['HTTP_REFERER'],
+        headers=response.headers
+    )

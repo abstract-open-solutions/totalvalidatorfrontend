@@ -20,7 +20,7 @@
       <p><strong i18n:translate="">Last checked:</strong>
         <span>${last_check}</span>
       </p>
-      <a class="btn btn-primary" i18n:translate="">Re-check the page</a>
+      <!-- a class="btn btn-primary" i18n:translate="">Re-check the page</a -->
     </div>
     <div class="clearfix"></div>
   </metal:belowtitle>
@@ -37,6 +37,16 @@
            data-toggle="tab"
            i18n:translate="">
            <span i18n:name="number">${n_markup_warnings}</span> Markup warnings</a></li>
+      <li>
+        <a href="#accessibilityerrors" role="tab"
+           data-toggle="tab"
+           i18n:translate="">
+           <span i18n:name="number">${n_accessibility_errors}</span> Accessibility errors</a></li>
+      <li>
+        <a href="#accessibilitywarnings" role="tab"
+           data-toggle="tab"
+           i18n:translate="">
+           <span i18n:name="number">${n_accessibility_warnings}</span> Accessibility warnings</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -119,6 +129,87 @@
           </tal:results>
         </ul>
       </div>
+
+      <div class="tab-pane fade" id="accessibilityerrors">
+        <div tal:condition="not: n_accessibility_errors"
+             class="alert alert-success"
+             i18n:translate="">
+          No errors found
+        </div>
+        <ul class="list-group"
+          tal:condition="n_accessibility_errors">
+          <tal:results repeat="item accessibility_errors.items()">
+            <tal:item define="error item[1]">
+              <li class="list-group-item">
+                <span class="label label-error">${error['total']}</span>
+                <a class="folded showhide-trigger"
+                   title="Click to show/hide the details"
+                   i18n:attributes="title"
+                   href="#">${item[0]}</a>
+                <div class="showhide-panel error-details">
+                  <ul>
+                    <li tal:repeat="ref error['references']">
+                      <span class="badge">${ref['position']}</span>
+                      <code class="error-snippet"
+                           tal:condition="ref['source']"
+                           tal:content="ref['source']"></code>
+                    </li>
+                  </ul>
+                  <div class="alert extra-details"
+                     tal:condition="error['detail']"
+                     tal:content="structure: error['detail']"></div>
+                  <a href="view-source:${url}"
+                     class="extra-link"
+                     target="_blank"><span
+                          class="glyphicon glyphicon-new-window"></span>
+                     <span i18n:translate="">Show page source</span></a>
+                </div>
+              </li>
+            </tal:item>
+          </tal:results>
+        </ul>
+      </div>
+
+      <div class="tab-pane fade" id="accessibilitywarnings">
+        <div tal:condition="not: n_accessibility_warnings"
+             class="alert alert-success"
+             i18n:translate="">
+          No warning found
+        </div>
+        <ul class="list-group"
+          tal:condition="n_accessibility_warnings">
+          <tal:results repeat="item accessibility_warnings.items()">
+            <tal:item define="error item[1]">
+              <li class="list-group-item">
+                <span class="label label-warning">${error['total']}</span>
+                <a class="folded showhide-trigger"
+                   title="Click to show/hide the details"
+                   i18n:attributes="title"
+                   href="#">${item[0]}</a>
+                <div class="showhide-panel error-details">
+                  <ul>
+                    <li tal:repeat="ref error['references']">
+                      <span class="badge">${ref['position']}</span>
+                      <code class="error-snippet"
+                           tal:condition="ref['source']"
+                           tal:content="ref['source']"></code>
+                    </li>
+                  </ul>
+                  <div class="alert extra-details"
+                     tal:condition="error['detail']"
+                     tal:content="structure: error['detail']"></div>
+                  <a href="view-source:${url}"
+                     class="extra-link"
+                     target="_blank"><span
+                          class="glyphicon glyphicon-new-window"></span>
+                     <span i18n:translate="">Show page source</span></a>
+                </div>
+              </li>
+            </tal:item>
+          </tal:results>
+        </ul>
+      </div>
+
     </div>
 
   </metal:main>

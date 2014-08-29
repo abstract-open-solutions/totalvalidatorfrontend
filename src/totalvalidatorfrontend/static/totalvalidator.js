@@ -14,14 +14,9 @@
         });
 
 
-
-        // $('#new_session').click(function (evt) {
-        //     var options = {
-        //         remote: $(this).attr('href')
-        //     };
-        //     $('#modal-placeholder').modal(options);
-        //     evt.preventDefault();
-        // });
+        $('#change-language select').change(function () {
+            this.form.submit();
+        });
 
     });
 

@@ -32,6 +32,7 @@ def main(global_config, **settings):
 
     # routes
     config.add_route('home', '/')
+    config.add_route('set_lang', '/set_lang')
     config.add_route('new_session', '/new')
     config.add_route('delete', '/delete/{code}')
     config.add_route('overview', '/session/{code}')
@@ -45,6 +46,11 @@ def main(global_config, **settings):
         'markup_error_details',
         '/session/{code}/markup_error/{errorhash}'
     )
+    config.add_route(
+        'accessiblity_error_details',
+        '/session/{code}/accessibility_error/{errorhash}'
+    )
+
     config.scan()
 
     return config.make_wsgi_app()

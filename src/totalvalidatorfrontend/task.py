@@ -11,6 +11,9 @@ from datetime import datetime
 from pyramid.threadlocal import get_current_registry
 
 from .models import get_urls_model
+from .models import get_accessibility_validator_model
+from .models import create_or_clean_tables
+
 from .models import ValidationSessionModel
 from .models import DBSession
 from .utils import dict_to_unicode
@@ -36,6 +39,9 @@ class CrawlingTask(Task):
         ).one()
         # 2. change session status
         session.status = 2
+
+        # 2.a create all tables or clean them
+        create_or_clean_tables(session.code)
 
         # 3. Rebuild urls table
         urls_model = get_urls_model(session.code)

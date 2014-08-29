@@ -52,32 +52,22 @@
         <span i18n:translate="">Add validation session</span></a>
     </div>
     <tal:results condition="num_results">
-      <div class="pull-right">
-        <p i18n:translate="">Found <span class="badge" i18n:name="number">${num_results}</span> sessions</p>
+      <div class="row overview-result-details">
+        <div class="col-md-4">
+          <a class="btn btn-primary" href="./new">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span i18n:translate="">Add validation session</span></a>
+        </div>
+        <div class="col-md-3 col-md-offset-5">
+          <p i18n:translate="" class="pull-right">Found <span class="badge" i18n:name="number">${num_results}</span> sessions</p>
+        </div>
       </div>
+
       <div class="clearfix"></div>
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead>
-<!--            <tr>
-              <th colspan="6">
-                <a class="btn btn-primary" href="./new">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Add validation session</a>
 
-                <form role="form" class="form-inline pull-right">
-                  <div class="form-group">
-                    <label for="search" class="hidden">Search</label>
-                    <input type="text" class="form-control" id="search"
-                           placeholder="Search" />
-                  </div>
-                  <button type="button" class="btn btn-default">
-                    <span class="glyphicon glyphicon-search"></span>
-                  </button>
-                </form>
-              </th>
-            </tr>
--->
             <tr>
               <th i18n:translate="">Session</th>
               <th i18n:translate="">Status</th>
@@ -115,7 +105,13 @@
                         title="${err['title']}">${err['errors']}</span>
                 </tal:errors>
               </td>
-              <td>TODO: Accessibility</td>
+              <td>
+                <tal:errors condition="res.status == 3"
+                    repeat="err errors['accessibility']">
+                  <span class="${err['class']}"
+                        title="${err['title']}">${err['errors']}</span>
+                </tal:errors>
+              </td>
               <td>
                 <tal:errors condition="res.status == 3"
                     repeat="err errors['css']">

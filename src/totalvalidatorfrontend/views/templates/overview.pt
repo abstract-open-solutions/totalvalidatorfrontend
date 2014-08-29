@@ -37,10 +37,10 @@
                i18n:translate="">Accessibility</div>
           <span class="label label-warning"
                 i18n:translate="">
-            <span i18n:name="number">000</span> Warnings</span>
+            <span i18n:name="number">${total_accessibility_errors['warning']}</span> Warnings</span>
           <span class="label label-danger"
                 i18n:translate="">
-            <span i18n:name="number">000</span> Errors</span>
+            <span i18n:name="number">${total_accessibility_errors['error']}</span> Errors</span>
         </div>
       </div>
       <div class="col-md-3 col-sm-6 col-xs-6">
@@ -132,7 +132,12 @@
                               title="${error['title']}">${error['errors']}</span>
                       </tal:errors>
                     </td>
-                    <td class="validation-errors">...</td>
+                    <td class="validation-errors">
+                      <tal:errors repeat="error res['accessibility_errors']">
+                        <span class="${error['class']}"
+                              title="${error['title']}">${error['errors']}</span>
+                      </tal:errors>
+                    </td>
                   </tr>
                 </tal:results>
               </tbody>
@@ -153,7 +158,16 @@
           </ul>
         </div>
         <div class="tab-pane fade" id="accessibility">
-          TODO: Accessibility
+          <ul class="list-group">
+            <tal:results repeat="res accessibility_errors">
+              <li class="list-group-item">
+                <span class="label label-${res.type}">${res.total}</span>
+                <a href="./${session_code}/accessibility_error/${res.errorhash}"
+                   title="Show details"
+                   i18n:attributes="title">${res.error}</a>
+              </li>
+            </tal:results>
+          </ul>
         </div>
 
         <div class="tab-pane fade" id="css">

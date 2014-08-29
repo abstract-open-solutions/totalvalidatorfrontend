@@ -25,7 +25,8 @@ def new_session(request):
     form = new_session_form()
     params = base_view_params(request, _(u"New Session"), 'new_session').copy()
     params.update({
-        'form': form.render()
+        'form': form.render(),
+        "actions": []
     })
 
     return params
@@ -38,6 +39,7 @@ def new_session_action(request):
     form = new_session_form()
     params = base_view_params(request, _(u"New Session"), 'new_session').copy()
     params['form'] = form.render()
+    params['actions'] = []
 
     controls = request.POST.items()
     try:

@@ -37,7 +37,7 @@ class ValidationSessionModel(Base):
     status = Column(Integer(1), default=0)
 
 
-def empty_tables(session_code):
+def create_or_clean_tables(session_code):
     """Clean up all tables related to a specific
     validation session.
 
@@ -71,7 +71,6 @@ def get_urls_model(session_code):
         Column('date', DateTime),
         Column('warning_markup', Integer(3), default=0),
         Column('error_markup', Integer(3), default=0),
-        Column('info_accessibility', Integer(3), default=0),
         Column('warning_accessibility', Integer(3), default=0),
         Column('error_accessibility', Integer(3), default=0),
         keep_existing=True
@@ -127,20 +126,23 @@ def get_accessibility_validator_model(session_code):
     :param session_code: validation session uuid
     :type session_code: string
     """
-    name = '{}_accessibilty'.format(session_code)
+    name = '{}_accessibility'.format(session_code)
     _table = Table(
         name,
         Base.metadata,
         Column("id",  Integer, primary_key=True),
         Column("url",  String(255)),
+        Column("urlhash",  String(32)),
         Column('type', String(10)),
         Column('line', Integer(10)),
         Column('column', Integer(10)),
         Column("error", String(255)),
+        Column("errorhash", String(32)),
         Column("source", Text),
         Column("repair", Text),
         keep_existing=True
     )
+
     _table.create(checkfirst=True)
     attr_dict = {
         '__tablename__': name,
@@ -163,8 +165,8 @@ def get_css_validator_model(session_code):
         name,
         Base.metadata,
         Column("id",  Integer, primary_key=True),
-        Column("url",  String(255)),
         Column('date', DateTime),
+        Column("url",  String(255)),
         Column("urlhash",  String(32)),
         Column("type",  String(10)),
         Column('errortype', String(100)),
