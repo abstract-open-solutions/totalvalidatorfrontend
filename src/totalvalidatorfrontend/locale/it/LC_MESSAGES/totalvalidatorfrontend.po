@@ -201,7 +201,7 @@ msgstr "Visualizza"
 #. Default: ${display} and analyze the results.
 #: ./src/totalvalidatorfrontend/views/templates/index.pt:57
 msgid "step_3"
-msgstr "${display} e analizza i risultati."
+msgstr "${display} e analizza i risultati della validazione."
 
 #: ./src/totalvalidatorfrontend/views/templates/index.pt:78
 msgid "No session found"
