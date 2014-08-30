@@ -74,7 +74,7 @@ class CrawlingTask(Task):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        command = "{} crawl" .format(bin)
+        command = "{} crawl " .format(bin)
         if record.limit > 0:
             command += " -L {} ".format(record.limit)
 
