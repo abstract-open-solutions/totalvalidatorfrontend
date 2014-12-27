@@ -259,7 +259,7 @@ msgstr "Ri-Valida"
 
 #: ./src/totalvalidatorfrontend/views/templates/index.pt:247
 msgid "Delete"
-msgstr "Cancella"
+msgstr "Elimina"
 
 #: ./src/totalvalidatorfrontend/views/templates/main.pt:125
 msgid "Logout"

@@ -7,7 +7,8 @@
   metal:use-macro="main.macros['main']">
 
   <metal:main fill-slot="main_content">
-    delete
+    <p i18n:translate="">Are you sure you want to delete this session?</p>
+    <tal:form replace="structure form" />
   </metal:main>
 
 </html>

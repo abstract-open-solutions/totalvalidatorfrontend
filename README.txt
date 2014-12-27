@@ -17,13 +17,14 @@ Getting Started
 Start services
 --------------
 
+REDIS::
+
+    ./parts/redis/bin/redis-server parts/redis/redis.conf
+
 CELERY::
 
     ./bin/pceleryd etc/development.ini
 
-REDIS::
-
-    ./parts/redis/bin/redis-server parts/redis/redis.conf
 
 
 

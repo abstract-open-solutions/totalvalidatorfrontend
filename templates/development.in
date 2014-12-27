@@ -18,6 +18,7 @@ pyramid.includes =
     pyramid_celery
 
 sqlalchemy.url = sqlite:///${buildout:directory}/var/totalvalidatorfrontend.sqlite
+# postgresql://user:pass@localhost:5432/dbname'
 
 totalvalidator.bin = ${buildout:bin-directory}/totalvalidator
 totalvalidator.basepath = ${buildout:directory}/var/totalvalidator

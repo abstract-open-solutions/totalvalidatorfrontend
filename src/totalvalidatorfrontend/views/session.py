@@ -6,6 +6,7 @@ from sqlalchemy import func
 
 from ..config import DATETIME_FORMAT
 from ..config import SESSION_STATUS
+from ..forms import delete_confirmation_form
 from ..models import DBSession
 from ..models import create_or_clean_tables
 from ..models import get_accessibility_validator_model
@@ -16,6 +17,7 @@ from ..task import CrawlingTask
 
 from ..utils import get_validation_session
 from .utils import base_view_params
+from .utils import set_status_message
 
 from .. import messageFactory as _
 
@@ -124,7 +126,11 @@ def overview(request):
         MarkupModel.error,
         MarkupModel.type,
         MarkupModel.errorhash
-    ).group_by(MarkupModel.errorhash).order_by(MarkupModel.type)
+    ).group_by(
+        MarkupModel.errorhash,
+        MarkupModel.error,
+        MarkupModel.type
+    ).order_by(MarkupModel.type)
 
     # Accessibility errors
     AccessiblityModel = get_accessibility_validator_model(code)
@@ -133,7 +139,11 @@ def overview(request):
         AccessiblityModel.error,
         AccessiblityModel.type,
         AccessiblityModel.errorhash
-    ).group_by(AccessiblityModel.errorhash).order_by(AccessiblityModel.type)
+    ).group_by(
+        AccessiblityModel.errorhash,
+        AccessiblityModel.error,
+        AccessiblityModel.type,
+    ).order_by(AccessiblityModel.type)
 
     # CSS Errors
     css_errors = {}
@@ -199,3 +209,56 @@ def validate(request):
 
     url = request.route_url('overview', code=code)
     return HTTPFound(location=url)
+
+
+@view_config(route_name="delete",
+             renderer='templates/delete.pt',
+             request_method="GET",
+             permission='delete')
+def delete_confirm(request):
+    session_code = request.matchdict['code']
+    session = get_validation_session(session_code)
+    params = base_view_params(request, 'Delete {}'.format(session.url)).copy()
+    form = delete_confirmation_form(request)
+    params['form'] = form.render()
+    return params
+
+
+@view_config(route_name="delete",
+             request_method="POST",
+             permission='delete')
+def delete(request):
+    session_code = request.matchdict['code']
+
+    session = get_validation_session(session_code)
+    session_title = session.url
+
+    params = base_view_params(
+        request,
+        'Delete {}'.format(session_title)
+    ).copy()
+    form = delete_confirmation_form(request)
+    params['form'] = form.render()
+
+    try:
+        data = form.validate(request.POST.items())
+    except ValidationFailure, e:
+        params['form'] = e.render()
+        return params
+
+    request_keys = request.POST.keys()
+    if 'cancel' in request_keys:
+        set_status_message(
+            request,
+            _(u"Nothing changed"),
+            type_='success'
+        )
+    elif 'delete' in request_keys:
+        # TODO: complete Action
+        set_status_message(
+            request,
+            _(u"Session ${title} deleted", mapping={'title': session_title}),
+            type_='success'
+        )
+
+    return HTTPFound(location=request.route_url('overview', code=session_code))

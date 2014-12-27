@@ -43,7 +43,7 @@ class ValidationSessionModel(Base):
 
     id = Column(Integer, primary_key=True)
     url = Column(String(255))
-    code = Column(String(32), unique=True)
+    code = Column(String(100), unique=True)
     date = Column(DateTime, nullable=True)
     # max number of pages to validate (0 == nolimit)
     limit = Column(Integer(3), default=0)
@@ -116,11 +116,11 @@ def get_markup_validator_model(session_code):
         Base.metadata,
         Column("id",  Integer, primary_key=True),
         Column("url",  String(255)),
-        Column('type', String(10)),
+        Column('type', String(17)),
         Column('line', Integer(10)),
         Column('column', Integer(10)),
-        Column("error", String(255)),
-        Column('errorhash', String(32)),
+        Column("error", Text),
+        Column('errorhash', String(100)),
         Column('messageid', String(50)),
         Column("detail", Text),
         Column("source", Text),
@@ -149,12 +149,12 @@ def get_accessibility_validator_model(session_code):
         Base.metadata,
         Column("id",  Integer, primary_key=True),
         Column("url",  String(255)),
-        Column("urlhash",  String(32)),
-        Column('type', String(10)),
+        Column("urlhash",  String(100)),
+        Column('type', String(17)),
         Column('line', Integer(10)),
         Column('column', Integer(10)),
-        Column("error", String(255)),
-        Column("errorhash", String(32)),
+        Column("error", Text),
+        Column("errorhash", String(100)),
         Column("source", Text),
         Column("repair", Text),
         keep_existing=True
@@ -184,14 +184,14 @@ def get_css_validator_model(session_code):
         Column("id",  Integer, primary_key=True),
         Column('date', DateTime),
         Column("url",  String(255)),
-        Column("urlhash",  String(32)),
-        Column("type",  String(10)),
+        Column("urlhash",  String(100)),
+        Column("type",  String(17)),
         Column('errortype', String(100)),
         Column("line",  Integer(4)),
-        Column("error",  String(255)),
-        Column("errorhash",  String(32)),
-        Column("source",  String(255)),
-        Column("context",  String(255)),
+        Column("error",  Text),
+        Column("errorhash",  String(100)),
+        Column("source",  Text),
+        Column("context",  Text),
         keep_existing=True
     )
 

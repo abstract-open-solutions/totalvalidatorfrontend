@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 import colander
 from deform import Form
+from deform import Button
 from deform import ZPTRendererFactory
 from deform.schema import FileData
 from deform.widget import HiddenWidget
@@ -98,4 +99,35 @@ def login_form(request):
     """Return a Deform form for login."""
     schema = wrap_schema(Login, request)()
     _form = Form(schema, buttons=(_(u'Login'),))
+    return _form
+
+
+class DeleteConfirmation(colander.MappingSchema):
+    """Delete confirmation form schema"""
+    confirm = colander.SchemaNode(
+        colander.Integer(),
+        widget=HiddenWidget(),
+        default=1
+    )
+
+
+def delete_confirmation_form(request):
+    """Return a Deform form for delete confirmation."""
+    schema = wrap_schema(DeleteConfirmation, request)()
+
+    buttons = [
+        Button(
+            name='delete',
+            title=_(u"Delete"),
+            type='submit',
+            css_class="btn btn-danger"
+        ),
+        Button(
+            name='cancel',
+            title=_(u"Cancel"),
+            type='submit',
+            css_class="btn btn-default"
+        ),
+    ]
+    _form = Form(schema, buttons=buttons)
     return _form

@@ -1,0 +1,8 @@
+
+gestire gli eventuali errori di totalvalidator:
+    1. servizi di validazione non disponibili
+    2. errori di diverso tipo
+
+gestire gli eventuali errori dei task
+
+Totalvalidator scrivere i log da qualche parte utile
