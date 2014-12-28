@@ -13,16 +13,18 @@ requires = [
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'pyramid_tm',
+    'pyramid_who',
     'redis',
     'pyramid_celery',
-    'SQLAlchemy',
+    'SQLAlchemy == 0.8.3',
     'transaction',
     'zope.sqlalchemy',
     'waitress',
     'colander',
     'deform',
     'webhelpers',
-    'abstract.totalvalidator'
+    'abstract.totalvalidator',
+    'psycopg2'
 ]
 
 setup(name='totalvalidatorfrontend',
